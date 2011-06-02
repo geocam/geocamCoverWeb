@@ -5,3 +5,6 @@
 # __END_LICENSE__
 
 from django.contrib import admin
+from geocamCover.models import *
+
+admin.site.register(Place)

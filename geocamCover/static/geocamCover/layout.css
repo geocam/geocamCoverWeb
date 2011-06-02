@@ -1,0 +1,20 @@
+html, body {
+	background: lightblue;
+}
+
+#map_canvas {
+	position: absolute;
+	height: 100%;
+}
+
+.map_size {
+	width: 320px;
+	height: 480px;
+}
+
+div#forms {
+	background: rgba(0, 0, 0, 0);
+	position: absolute;
+	z-index: 10;
+	visibility: hidden;
+}

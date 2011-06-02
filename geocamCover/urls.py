@@ -5,7 +5,9 @@
 # __END_LICENSE__
 
 from django.conf.urls.defaults import *
+from geocamCover import views
 
 urlpatterns = patterns('',
-    url(r'^$', 'views.index', name='index'),
+ url(r'^$', views.index, name='index'),
+ url(r'^hello.json$', views.hello_world_json),
 )

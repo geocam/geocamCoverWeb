@@ -5,6 +5,22 @@
 # __END_LICENSE__
 
 from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect, HttpResponseForbidden, Http404
-from django.template import RequestContext
 from django.utils.translation import ugettext, ugettext_lazy as _
+
+import json
+
+from django.template import Context, loader, RequestContext
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
+
+
+def index(request):
+    t = loader.get_template('geocamCover/index.html')
+    c = RequestContext(request)
+#    places = Place.objects.all()
+
+    return HttpResponse(t.render(c))
+
+def hello_world_json(request):
+    foo = {"x":1}
+    foo_json = json.dumps(foo, sort_keys=True, indent=4)
+    return HttpResponse(foo_json,mimetype="application/json")
