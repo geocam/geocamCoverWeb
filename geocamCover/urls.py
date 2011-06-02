@@ -10,4 +10,5 @@ from geocamCover import views
 urlpatterns = patterns('',
  url(r'^$', views.index, name='index'),
  url(r'^hello.json$', views.hello_world_json),
+ url(r'^place/$', views.place),
 )

@@ -83,6 +83,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'geocamUtil.middleware.LogErrorsMiddleware.LogErrorsMiddleware',
 )
 
 ROOT_URLCONF = 'example.urls'

@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2524b672-8547-4ccb-b566-f2c0df5a035c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/urls.py" afterPath="$PROJECT_DIR$/example/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geocamCover/admin.py" afterPath="$PROJECT_DIR$/geocamCover/admin.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/asemradhwi.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/settings.py" afterPath="$PROJECT_DIR$/example/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geocamCover/models.py" afterPath="$PROJECT_DIR$/geocamCover/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geocamCover/static/geocamCover/app.js" afterPath="$PROJECT_DIR$/geocamCover/static/geocamCover/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geocamCover/static/geocamCover/layout.css" afterPath="$PROJECT_DIR$/geocamCover/static/geocamCover/layout.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geocamCover/templates/geocamCover/index.html" afterPath="$PROJECT_DIR$/geocamCover/templates/geocamCover/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geocamCover/urls.py" afterPath="$PROJECT_DIR$/geocamCover/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geocamCover/views.py" afterPath="$PROJECT_DIR$/geocamCover/views.py" />
     </list>
@@ -29,10 +34,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="urls.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/geocamCover/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="18" selection-start="361" selection-end="361" vertical-scroll-proportion="0.40243903">
+            <state line="12" column="14" selection-start="404" selection-end="404" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -50,7 +55,7 @@
       <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/example/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="16" selection-start="1642" selection-end="1642" vertical-scroll-proportion="0.0">
+            <state line="85" column="68" selection-start="3094" selection-end="3094" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -59,7 +64,16 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/geocamCover/templates/geocamCover/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="47" selection-start="146" selection-end="146" vertical-scroll-proportion="-2.5">
+            <state line="8" column="63" selection-start="455" selection-end="455" vertical-scroll-proportion="-5.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="layout.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/geocamCover/static/geocamCover/layout.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="17" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -68,7 +82,7 @@
       <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/geocamCover/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="24" selection-start="655" selection-end="655" vertical-scroll-proportion="0.0">
+            <state line="21" column="89" selection-start="772" selection-end="772" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -86,7 +100,16 @@
       <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/geocamCover/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="35" selection-start="806" selection-end="806" vertical-scroll-proportion="0.0">
+            <state line="27" column="63" selection-start="847" selection-end="847" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/geocamCover/static/geocamCover/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="37" column="40" selection-start="1248" selection-end="1248" vertical-scroll-proportion="0.5865922">
               <folding />
             </state>
           </provider>
@@ -107,13 +130,32 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/example/urls.py" />
-        <option value="$PROJECT_DIR$/geocamCover/templates/geocamCover/index.html" />
         <option value="$PROJECT_DIR$/geocamCover/admin.py" />
+        <option value="$PROJECT_DIR$/geocamCover/static/geocamCover/layout.css" />
+        <option value="$PROJECT_DIR$/geocamCover/templates/geocamCover/index.html" />
+        <option value="$PROJECT_DIR$/geocamCover/urls.py" />
+        <option value="$PROJECT_DIR$/example/settings.py" />
         <option value="$PROJECT_DIR$/geocamCover/models.py" />
         <option value="$PROJECT_DIR$/geocamCover/views.py" />
-        <option value="$PROJECT_DIR$/geocamCover/urls.py" />
+        <option value="$PROJECT_DIR$/geocamCover/static/geocamCover/app.js" />
       </list>
     </option>
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id>Inspections</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Buildout</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -141,8 +183,8 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Favorites" />
       <pane id="Scope" />
+      <pane id="Favorites" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -157,7 +199,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="geocamCoverWeb.git" />
+              <option name="myItemId" value="geocamCoverWeb" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -167,7 +209,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="geocamCoverWeb.git" />
+              <option name="myItemId" value="geocamCoverWeb" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -181,7 +223,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="geocamCoverWeb.git" />
+              <option name="myItemId" value="geocamCoverWeb" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -203,11 +245,19 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="geocamCoverWeb.git" />
+              <option name="myItemId" value="geocamCoverWeb" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="example" />
+              <option name="myItemId" value="geocamCover" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="geocamCover" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -216,10 +266,14 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="com.jetbrains.django.DjangoConfigurable" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
-  <component name="RunManager" selected="Django server.geocamCoverWeb.git">
+  <component name="RunManager" selected="Django server.geocamCoverWeb">
     <configuration default="false" name="manage" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -307,29 +361,6 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
-    <configuration default="true" type="py.test" factoryName="py.test">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <module name="geocamCoverWeb.git" />
-      <option name="testToRun" value="" />
-      <option name="keywords" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="PyRemoteDebugConfigurationType" factoryName="Python Remote Debug">
-      <module name="" />
-      <option name="PORT" value="0" />
-      <option name="HOST" value="null" />
-      <option name="USE_MAPPING" value="false" />
-      <option name="REMOTE_ROOT" value="" />
-      <option name="LOCAL_ROOT" value="" />
-      <option name="REDIRECT_OUTPUT" value="true" />
-      <option name="SUSPEND_AFTER_CONNECT" value="true" />
-      <method />
-    </configuration>
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -350,6 +381,29 @@
       <option name="customRunCommand" value="" />
       <method />
     </configuration>
+    <configuration default="true" type="PyRemoteDebugConfigurationType" factoryName="Python Remote Debug">
+      <module name="" />
+      <option name="PORT" value="0" />
+      <option name="HOST" value="null" />
+      <option name="USE_MAPPING" value="false" />
+      <option name="REMOTE_ROOT" value="" />
+      <option name="LOCAL_ROOT" value="" />
+      <option name="REDIRECT_OUTPUT" value="true" />
+      <option name="SUSPEND_AFTER_CONNECT" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="py.test" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <module name="geocamCoverWeb.git" />
+      <option name="testToRun" value="" />
+      <option name="keywords" value="" />
+      <method />
+    </configuration>
     <configuration default="true" type="PythonDocTestRunConfigurationType" factoryName="Python's doctests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -366,18 +420,18 @@
       <option name="PATTERN" value="" />
       <method />
     </configuration>
-    <configuration default="false" name="geocamCoverWeb.git" type="Python.DjangoServer" factoryName="Django server">
+    <configuration default="false" name="geocamCoverWeb" type="Python.DjangoServer" factoryName="Django server">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="SDK_HOME" value="/Library/Frameworks/Python.framework/Versions/2.7/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/example" />
       <option name="IS_MODULE_SDK" value="false" />
       <module name="geocamCoverWeb.git" />
       <option name="port" value="8000" />
-      <option name="host" value="" />
+      <option name="host" value="0.0.0.0" />
       <option name="additionalOptions" value="" />
       <option name="browserUrl" value="" />
       <option name="runTestServer" value="false" />
@@ -389,7 +443,7 @@
       <method />
     </configuration>
     <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="Django server.geocamCoverWeb.git" />
+      <item index="0" class="java.lang.String" itemvalue="Django server.geocamCoverWeb" />
       <item index="1" class="java.lang.String" itemvalue="Python.manage" />
     </list>
   </component>
@@ -409,10 +463,12 @@
     <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
     <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
     <option name="FORCE_UPDATE" value="false" />
+    <configuration useDefault="true">$USER_HOME$/.subversion_IDEA</configuration>
     <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+      <changelist id="2524b672-8547-4ccb-b566-f2c0df5a035c" name="Default" comment="" />
       <created>1307036426069</created>
       <updated>1307036426069</updated>
     </task>
@@ -422,21 +478,21 @@
     <frame x="0" y="22" width="1280" height="774" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3240446" sideWeight="0.6712538" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3240446" sideWeight="0.62232417" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32874617" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37767583" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsManagerConfiguration">
@@ -472,51 +528,68 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/example/settings.py">
+    <entry file="file://$PROJECT_DIR$/example/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="16" selection-start="1642" selection-end="1642" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="32" column="46" selection-start="1003" selection-end="1003" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/geocamCover/admin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="32" selection-start="270" selection-end="270" vertical-scroll-proportion="0.0">
+        <state line="7" column="32" selection-start="270" selection-end="270" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geocamCover/templates/geocamCover/placeholder.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geocamCover/models.py">
+    <entry file="file://$PROJECT_DIR$/geocamCover/static/geocamCover/layout.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="24" selection-start="655" selection-end="655" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geocamCover/templates/geocamCover/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="47" selection-start="146" selection-end="146" vertical-scroll-proportion="-2.5">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geocamCover/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="35" selection-start="806" selection-end="806" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="46" selection-start="1003" selection-end="1003" vertical-scroll-proportion="0.0">
+        <state line="8" column="17" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/geocamCover/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="18" selection-start="361" selection-end="361" vertical-scroll-proportion="0.40243903">
+        <state line="12" column="14" selection-start="404" selection-end="404" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="85" column="68" selection-start="3094" selection-end="3094" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geocamCover/templates/geocamCover/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="63" selection-start="455" selection-end="455" vertical-scroll-proportion="-5.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geocamCover/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="89" selection-start="772" selection-end="772" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geocamCover/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="63" selection-start="847" selection-end="847" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geocamCover/static/geocamCover/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="40" selection-start="1248" selection-end="1248" vertical-scroll-proportion="0.5865922">
           <folding />
         </state>
       </provider>

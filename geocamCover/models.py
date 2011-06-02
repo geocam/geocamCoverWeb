@@ -17,3 +17,6 @@ class Place(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_struct(self):
+        return {"name": self.name, "latitude": self.latitude, "longitude": self.longitude}
