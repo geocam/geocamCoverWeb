@@ -32,8 +32,8 @@ def hello_world_json(request):
 
 def place(request):
     if request.method == 'POST':
-        if request.user == None:
-            user = User.objects.get(id=0)
+        if request.user == None or not request.user.is_authenticated():
+            user = User.objects.get(username="root")
         else:
             user = request.user
         struct = json.loads(request.raw_post_data)

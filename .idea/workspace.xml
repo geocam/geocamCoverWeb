@@ -2,15 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2524b672-8547-4ccb-b566-f2c0df5a035c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/asemradhwi.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example/settings.py" afterPath="$PROJECT_DIR$/example/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geocamCover/models.py" afterPath="$PROJECT_DIR$/geocamCover/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geocamCover/static/geocamCover/app.js" afterPath="$PROJECT_DIR$/geocamCover/static/geocamCover/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geocamCover/static/geocamCover/layout.css" afterPath="$PROJECT_DIR$/geocamCover/static/geocamCover/layout.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geocamCover/templates/geocamCover/index.html" afterPath="$PROJECT_DIR$/geocamCover/templates/geocamCover/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geocamCover/urls.py" afterPath="$PROJECT_DIR$/geocamCover/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geocamCover/views.py" afterPath="$PROJECT_DIR$/geocamCover/views.py" />
     </list>
     <ignored path="geocamCoverWeb.git.iws" />
@@ -97,19 +88,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/geocamCover/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="63" selection-start="847" selection-end="847" vertical-scroll-proportion="0.0">
+            <state line="35" column="50" selection-start="1149" selection-end="1149" vertical-scroll-proportion="0.53910613">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/geocamCover/static/geocamCover/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="40" selection-start="1248" selection-end="1248" vertical-scroll-proportion="0.5865922">
+            <state line="37" column="40" selection-start="1248" selection-end="1248" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -136,8 +127,8 @@
         <option value="$PROJECT_DIR$/geocamCover/urls.py" />
         <option value="$PROJECT_DIR$/example/settings.py" />
         <option value="$PROJECT_DIR$/geocamCover/models.py" />
-        <option value="$PROJECT_DIR$/geocamCover/views.py" />
         <option value="$PROJECT_DIR$/geocamCover/static/geocamCover/app.js" />
+        <option value="$PROJECT_DIR$/geocamCover/views.py" />
       </list>
     </option>
   </component>
@@ -476,7 +467,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="774" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -580,16 +571,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geocamCover/views.py">
+    <entry file="file://$PROJECT_DIR$/geocamCover/static/geocamCover/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="63" selection-start="847" selection-end="847" vertical-scroll-proportion="0.0">
+        <state line="37" column="40" selection-start="1248" selection-end="1248" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geocamCover/static/geocamCover/app.js">
+    <entry file="file://$PROJECT_DIR$/geocamCover/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="40" selection-start="1248" selection-end="1248" vertical-scroll-proportion="0.5865922">
+        <state line="35" column="50" selection-start="1149" selection-end="1149" vertical-scroll-proportion="0.53910613">
           <folding />
         </state>
       </provider>
