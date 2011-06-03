@@ -10,3 +10,4 @@
 /geocamCover/build
 /geocamUtil
 /.idea
+*.db
