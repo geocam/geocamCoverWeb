@@ -8,17 +8,48 @@ html, body {
     position: absolute;
     height: 100%;
     width: 100%;
-
 }
 
-.map_size {
-    width: 320px;
-    height: 480px;
-}
-
-div#forms {
+#place-form, .form{
     background: rgba(0, 0, 0, 0);
     position: absolute;
     z-index: 10;
-    visibility: hidden;
+	width: 100%;
+	height: 100%;
+    display: none;
+}
+
+.form{
+	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#EEE),color-stop(1,#DDD));
+}
+
+/*
+.form-buttons{
+	position:absolute;
+	bottom:0;
+	width:100%;
+}*/
+
+
+#place-form form{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#EEE),color-stop(1,#DDD));
+	text-align: center;
+}
+
+#place-log{
+	height: 100%;
+}
+
+
+#dim{
+	display: none;
+	background: black;
+	opacity: .5;
+	position: absolute;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
 }

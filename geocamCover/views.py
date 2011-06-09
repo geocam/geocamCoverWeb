@@ -23,11 +23,23 @@ def index(request):
     return HttpResponse(t.render(c))
 
 
-def hello_world_json(request):
+def places_json(request):
 
-    foo = {"places": [p.get_struct() for p in Place.objects.all()]}
-    foo_json = json.dumps(foo, sort_keys=True, indent=4)
-    return HttpResponse(foo_json, mimetype="application/json")
+    place_hash = {"places": []}
+    for p in Place.objects.all():
+        place_dict = {}
+        place_dict["place"] = p.get_struct()
+        place_dict["tasks"] = []
+        place_dict["reports"] = []
+        
+        #for t in p.tasks.all():
+        #    place_dict["tasks"] << t
+        #    for r in p.reports.all():
+        #        place_dict["reports"] << r
+        place_hash["places"].append(place_dict)
+
+    places = json.dumps(place_hash, sort_keys=True, indent=4)
+    return HttpResponse(places, mimetype="application/json")
 
 
 def place(request):
