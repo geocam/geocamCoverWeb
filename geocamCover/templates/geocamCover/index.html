@@ -24,7 +24,7 @@
         <div id="place-form">
             <form>
                 <h1>Do you want to add this as a place?</h1>
-                <input style='width:95%' id="name" type="text" placeholder="Place Name... (optional)"/>
+                <input style='width:95%' class="name" type="text" placeholder="Place Name... (optional)"/>
                 <input type="submit" value="Add Place"/>
                 <input type="button" value="Back to Map" onclick="return showMap();"/>
             </form>
@@ -34,6 +34,12 @@
             <div data-role="header">
                 <h1 class='name'></h1>
             </div>
+			
+			<div data-role="content">
+				<ul id="logs" data-role="listview" data-theme="g">
+				</ul>
+			</div>
+			
             <div class='form-buttons'>
                 <input onclick="showNewTask();" type="submit" value="Add Task"/>
                 <input onclick="showNewReport();" type="submit" value="Add Report"/>
@@ -54,7 +60,7 @@
                 <textarea placeholder='Description...' class="description"></textarea>
 
                 <div class='form-buttons'>
-                    <input onclick="return false;" type="submit" value="Submit Task"/>
+                    <input type="submit" value="Submit Task"/>
                     <input type="button" value="Back to Logs" onclick="return showLog(selectedPlace);"/>
                     <input type="submit" value="Back to Map" onclick="return showMap();"/>
                 </div>
@@ -67,7 +73,7 @@
                     <h1>Add Report to '<span class='name'></span>'</h1>
                 </div>
                 <input type='text' class='title' placeholder='Report Title...'/>
-                <select>
+                <select class="status">
                     <option disabled>Status</option>
                     <option>Temp 1</option>
                     <option>Temp 2</option>
@@ -75,12 +81,12 @@
                 </select>
 
                 <div>
-                    <input type="range" name="points" min="0" max="100" value="0"/>
+                    <input type="range" name="points" min="0" max="100" value="0" class="percent_completed"/>
                 </div>
-                <textarea placeholder='Notes...'></textarea>
+                <textarea class="notes" placeholder='Notes...'></textarea>
 
                 <div class='form-buttons'>
-                    <input onclick="return false;" type="submit" value="Submit Report"/>
+                    <input type="submit" value="Submit Report"/>
                     <input type="button" value="Back to Logs" onclick="return showLog(selectedPlace);"/>
                     <input type="submit" value="Back to Map" onclick="return showMap();"/>
                 </div>

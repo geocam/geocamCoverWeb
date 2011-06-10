@@ -12,4 +12,5 @@ urlpatterns = patterns('',
  url(r'^places.json$', views.places_json),
  url(r'^place/$', views.place),
  url(r'^task/$', views.task),
+ url(r'^report/$', views.report),
 )

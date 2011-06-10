@@ -21,7 +21,7 @@ class Place(models.Model):
     def get_struct(self):
         return {"id": self.id, "name": self.name, "latitude": self.latitude, "longitude": self.longitude}
 
-
+   
 class Report(models.Model):
     place = models.ForeignKey(Place)
     title = models.CharField(max_length=200, blank=True)
@@ -36,7 +36,7 @@ class Report(models.Model):
         return self.name
 
     def get_struct(self):
-        return {"place": self.place, "title": self.title, "notes": self.notes, "status": self.status,
+        return {"place_id": self.place_id, "title": self.title, "notes": self.notes, "status": self.status,
                 "percent_completed": self.percent_completed}
 
 
@@ -54,7 +54,7 @@ class Task(models.Model):
         return self.name
 
     def get_struct(self):
-        return {"place": self.place, "report": self.report, "title": self.title, "description": self.description,
+        return {"place_id": self.place_id, "title": self.title, "description": self.description,
                 "priority": self.priority}
 
 
