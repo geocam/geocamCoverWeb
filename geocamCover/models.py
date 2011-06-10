@@ -24,22 +24,24 @@ class Place(models.Model):
 
 class Task(models.Model):
     place = models.ForeignKey(Place)
+    report = models.ForeignKey(Report)
     title = models.CharField(max_length=200, blank=True)
     description = models.CharField(max_length=1000, blank=True)
     priority = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User)
-	
+
     def __unicode__(self):
         return self.name
 
     def get_struct(self):
-        return {"place": self.place, "title": self.title, "description": self.description, "priority": self.priority}
+        return {"place": self.place, "report": self.report, "title": self.title, "description": self.description,
+                "priority": self.priority}
 
 
 class Report(models.Model):
-    task = models.ForeignKey(Task)
+    place = models.ForeignKey(Place)
     title = models.CharField(max_length=200, blank=True)
     status = models.CharField(max_length=200, blank=True)
     notes = models.CharField(max_length=1000, blank=True)
@@ -47,9 +49,10 @@ class Report(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User)
-	
+
     def __unicode__(self):
         return self.name
 
     def get_struct(self):
-        return {"task": self.task, "title": self.title, "notes": self.notes, "status": self.status, "percent_completed": self.percent_completed}
+        return {"place": self.place, "title": self.title, "notes": self.notes, "status": self.status,
+                "percent_completed": self.percent_completed}
