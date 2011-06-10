@@ -24,14 +24,13 @@ def index(request):
 
 
 def places_json(request):
-
     place_hash = {"places": []}
     for p in Place.objects.all():
         place_dict = {}
         place_dict["place"] = p.get_struct()
         place_dict["tasks"] = []
         place_dict["reports"] = []
-        
+
         #for t in p.tasks.all():
         #    place_dict["tasks"] << t
         #    for r in p.reports.all():
@@ -44,11 +43,26 @@ def places_json(request):
 
 def place(request):
     if request.method == 'POST':
-        if request.user == None or not request.user.is_authenticated():
-            user = User.objects.get(username="root")
-        else:
-            user = request.user
+        user = get_user(request)
         struct = json.loads(request.raw_post_data)
         Place(name=struct['name'], latitude=struct['latitude'], longitude=struct['longitude']
               , created_by=user).save()
     return HttpResponse("ok")
+
+
+def task(request):
+    if request.method == 'POST':
+        user = get_user(request)
+        struct = json.loads(request.raw_post_data)
+        Task(title=struct['title'], priority=struct['priority'], description=struct['description']
+              , created_by=user).save(), place
+    return HttpResponse("ok")
+
+
+def get_user(request):
+    user = None
+    if request.user == None or not request.user.is_authenticated():
+        user = User.objects.get(username="root")
+    else:
+        user = request.user
+    return user

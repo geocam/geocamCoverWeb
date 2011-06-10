@@ -19,25 +19,7 @@ class Place(models.Model):
         return self.name
 
     def get_struct(self):
-        return {"name": self.name, "latitude": self.latitude, "longitude": self.longitude}
-
-
-class Task(models.Model):
-    place = models.ForeignKey(Place)
-    report = models.ForeignKey(Report)
-    title = models.CharField(max_length=200, blank=True)
-    description = models.CharField(max_length=1000, blank=True)
-    priority = models.IntegerField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(User)
-
-    def __unicode__(self):
-        return self.name
-
-    def get_struct(self):
-        return {"place": self.place, "report": self.report, "title": self.title, "description": self.description,
-                "priority": self.priority}
+        return {"id": self.id, "name": self.name, "latitude": self.latitude, "longitude": self.longitude}
 
 
 class Report(models.Model):
@@ -56,3 +38,24 @@ class Report(models.Model):
     def get_struct(self):
         return {"place": self.place, "title": self.title, "notes": self.notes, "status": self.status,
                 "percent_completed": self.percent_completed}
+
+
+class Task(models.Model):
+    place = models.ForeignKey(Place)
+    #    report = models.ForeignKey(Report)
+    title = models.CharField(max_length=200, blank=True)
+    description = models.CharField(max_length=1000, blank=True)
+    priority = models.IntegerField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User)
+
+    def __unicode__(self):
+        return self.name
+
+    def get_struct(self):
+        return {"place": self.place, "report": self.report, "title": self.title, "description": self.description,
+                "priority": self.priority}
+
+
+
