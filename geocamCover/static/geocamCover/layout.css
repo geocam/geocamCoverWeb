@@ -36,7 +36,7 @@ html, body {
 
 #place-form form{
 	position: absolute;
-	bottom: 43px;
+	bottom: 0px;
 	width: 100%;
 	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#EEE),color-stop(1,#DDD));
 	text-align: center;

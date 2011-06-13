@@ -17,7 +17,7 @@
 <body>
 
 <div id="map-page" data-role="page">
-	<div data-role="header">
+	<div id="map-header" data-role="header">
 		<h1>GeoCam Cover</h1>
 	</div>
 	<div data-role="content" style='padding:0px'>
@@ -28,7 +28,7 @@
 				<h1>Do you want to add this as a place?</h1>
 				<input style='width:95%' class="name" type="text" placeholder="Place Name... (optional)"/>
 				<input type="submit" value="Add Place"/>
-				<input type="button" value="Back to Map" onclick="$('#dim').hide();$('#place-form').hide();"/>
+				<input type="button" value="Back to Map" onclick="hidePlaceForm();"/>
 			</form>
 		</div>
     </div>
