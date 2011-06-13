@@ -23,6 +23,7 @@ function Place() {
     this.position = null;
     this.reports = [];
     this.tasks = [];
+	this.marker = null;
 }
 
 var places = [];
@@ -180,18 +181,20 @@ function deletePlace(){
 		delete places[selectedPlace.id];
 		showMap();
 	});
+	//var markers = $("#map_canvas").gmap('getMarkers');
+	//markers.
 }
 
 
 function addMarker(place) {
 
-    $("#map_canvas").gmap('addMarker', {
+    var marker = $("#map_canvas").gmap('addMarker', {
         'position': place.position,
         'title': place.name
-    }).click(function() {
+    })
+	marker.click(function() {
 		showLog(place.id);
 	});
-	
 }
 
 
@@ -208,14 +211,16 @@ function showLog(place_id) {
 
     $('#logs').empty();
     for (var task in place.tasks) {
+		var id = task;
         task = place.tasks[task];
-        $('#logs').append("<li><a href='#'>" + task.title + "</a></li>");
+        $('#logs').append("<li><a href='#' onclick='showEditTask(" + id + ");'>" + task.title + "</a></li>");
         noTasksAndReports = false;
     }
 
     for (var report in place.reports) {
+		var id = report;
         report = place.reports[report];
-        $('#logs').append("<li><a href='#'>" + report.title + "</a></li>");
+        $('#logs').append("<li><a href='#' onclick='showEditReport(" + id + ");'>" + report.title + "</a></li>");
         noTasksAndReports = false;
     }
 
@@ -246,12 +251,32 @@ function showNewReport() {
     $("#reports-page .name").html(selectedPlace.name.length == 0 ? "Unnamed Place" : selectedPlace.name);
 }
 
+
 function showEditPlace(){
     document.location.href = "/geocamCover/#edit-place-page";
     $('#edit-place-page a').removeClass("ui-btn-active");
     $("#edit-place-page h1 .name").html(selectedPlace.name.length == 0 ? "Unnamed Place" : selectedPlace.name);
     $("#edit-place-page form .name").val(selectedPlace.name);
 }
+
+
+function showEditReport(report_idx){
+	var report = selectedPlace.reports[report_idx];
+    document.location.href = "/geocamCover/#edit-report-page";
+    $('#edit-report-page a').removeClass("ui-btn-active");
+    $("#edit-report-page h1 .name").html(report.title);
+    $("#edit-report-page form .name").val(report.title);
+}
+
+
+function showEditTask(task_idx){
+	var task = selectedPlace.tasks[task_idx];
+    document.location.href = "/geocamCover/#edit-task-page";
+    $('#edit-task-page a').removeClass("ui-btn-active");
+    $("#edit-task-page h1 .name").html(task.title);
+    $("#edit-task-page form .name").val(task.title);
+}
+
 
 function showMap() {
     document.location.href = "/geocamCover/#map-page";

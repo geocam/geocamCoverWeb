@@ -38,22 +38,19 @@
 <div id="logs-page" data-role="page">
 
    <div data-role="header">
-		<a href="#" data-rel="back" data-icon="arrow-l">Back</a>
+		<a href="#" onclick="showMap();" data-icon="arrow-l">Back</a>
 		<h1 class='name'></h1>
 		<a href="#" onclick="showEditPlace();" class="ui-btn-right" data-icon="gear" data-role="button">Edit</a>
 	</div>
 	
 	<div data-role="content">
-		<ul id="logs" data-role="listview" data-theme="e">
-		</ul>
-		
-	</div>
-
-	
-	<div class='form-buttons'>
 		<input onclick="showNewTask();" type="submit" value="Add Task"/>
 		<input onclick="showNewReport();" type="submit" value="Add Report"/>
 		<input type="submit" value="Back to Map" onclick="return showMap();"/>
+		</div><div>
+		<ul id="logs" data-role="listview" data-theme="e">
+		</ul>
+	
 	</div>
 </div>
 
@@ -123,6 +120,54 @@
 	</div>
 </div>
 
+
+<div id="edit-task-page" data-role="page">
+	<div data-role="header">
+		<a href="#" data-rel="back" data-icon="delete">Cancel</a>
+		<h1>Edit '<span class='name'></span>'</h1>
+		<a href="#" onclick="deleteTask();" data-role="button" data-icon="delete">Delete</a>
+	</div>
+	
+	<div data-role="content">
+		<form>
+			<input type='text' class='title' /><br/>
+			<input type="range" name="points" min="1" max="5" class="priority"/>
+			<textarea class="description"></textarea>
+			<input type="submit" value="Update Task"/>
+		</form>
+		
+		<input type="button" value="Back to Logs" onclick="return showLog(selectedPlace);"/>
+		<input type="submit" value="Back to Map" onclick="return showMap();"/>
+	</div>
+</div>
+
+<div id="edit-report-page" data-role="page">
+	<div data-role="header">
+		<a href="#" data-rel="back" data-icon="delete">Cancel</a>
+		<h1>Edit '<span class='name'></span>'</h1>
+		<a href="#" onclick="deleteReport();" data-role="button" data-icon="delete">Delete</a>
+	</div>
+	<div data-role="content">
+		<form>
+			<input type='text' class='title'/>
+			<select class="status">
+				<option disabled>Status</option>
+				<option>Temp 1</option>
+				<option>Temp 2</option>
+				<option>Temp 3</option>
+			</select>
+
+			<div>
+				<input type="range" name="points" min="0" max="100"  class="percent_completed"/>
+			</div>
+			<textarea class="notes"></textarea>
+			<input type="submit" value="Update Report"/>
+		</form>
+
+		<input type="button" value="Back to Logs" onclick="return showLog(selectedPlace);"/>
+		<input type="submit" value="Back to Map" onclick="return showMap();"/>
+	</div>
+</div>
 
 
 </body>
