@@ -46,16 +46,17 @@ def place(request):
     if request.method == 'POST':
         user = get_user(request)
         struct = json.loads(request.raw_post_data)
-        Place(name=struct['name'], latitude=struct['latitude'], longitude=struct['longitude']
-              , created_by=user).save()
-    return HttpResponse("ok")
+        place = Place(name=struct['name'], latitude=struct['latitude'], longitude=struct['longitude']
+              , created_by=user)
+        place.save()
+    return HttpResponse(place.id)
 
 
 def task(request):
     if request.method == 'POST':
         user = get_user(request)
         struct = json.loads(request.raw_post_data)
-        place = Place.objects.get(pk=struct['place_id'])
+        place = Place.objects.get(id=struct['place_id'])
         Task(place=place, title=struct['title'], priority=struct['priority'], description=struct['description']
               ,created_by=user).save()
     return HttpResponse("ok")
@@ -65,7 +66,7 @@ def report(request):
     if request.method == 'POST':
         user = get_user(request)
         struct = json.loads(request.raw_post_data)
-        place = Place.objects.get(pk=struct['place_id'])
+        place = Place.objects.get(id=struct['place_id'])
         Report(place=place, title=struct['title'], percent_completed=struct['percent_completed'], notes=struct['notes'],
               status=struct['status'],created_by=user).save()
     return HttpResponse("ok")

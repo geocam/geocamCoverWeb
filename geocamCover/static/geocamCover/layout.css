@@ -16,7 +16,6 @@ html, body {
     z-index: 10;
 	width: 100%;
 	height: 100%;
-    display: none;
 }
 
 .form{
@@ -30,17 +29,17 @@ html, body {
 	width:100%;
 }*/
 
+#place-form{
+
+    display: none;
+}
 
 #place-form form{
 	position: absolute;
-	bottom: 0;
+	bottom: 43px;
 	width: 100%;
 	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#EEE),color-stop(1,#DDD));
 	text-align: center;
-}
-
-#place-log{
-	height: 100%;
 }
 
 

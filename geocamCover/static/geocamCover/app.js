@@ -27,10 +27,10 @@ function Place() {
 
 var places = [];
 var clicked_position;
-var selected_place;
-var globalTempPlaceId = 666;
+var selectedPlace;
 
 $(document).ready(function () {
+
 
     //MOFFETT FIELD COORDINATES
     var latlng = new google.maps.LatLng(37.41288, -122.052934);
@@ -91,28 +91,25 @@ $(document).ready(function () {
         place = new Place();
         place.position = clicked_position;
         place.name = $('#place-form .name').val();
-        addMarker(place);
 
         var new_place = JSON.stringify({"latitude": clicked_position.lat(),
                     "longitude": clicked_position.lng(), "name": place.name });
         $.post('/geocamCover/place/', new_place, function(data) {
-            // nothing yet
-			// need to get ID as ACK from server using JSON-RPC
+			place.id = data;
+			places[place.id] = place;
+			addMarker(place);
+			showLog(place.id);
         });
-		// USING A TEMP ID FOR NOW
-		place.id = ++globalTempPlaceId;
-		places[globalTempPlaceId] = place;
-
+		
         $('#place-form .name').val("");
-        showLog(place.id);
         return false;
     });
 
-    $("#new-task form").submit(function() {
+    $("#tasks-page form").submit(function() {
         task = new Task();
-        task.title = $('#new-task .title').val();
-        task.description = $('#new-task .description').val();
-        task.priority = $('#new-task .priority').val();
+        task.title = $('#tasks-page .title').val();
+        task.description = $('#tasks-page .description').val();
+        task.priority = $('#tasks-page .priority').val();
         task.place_id = selectedPlace.id;
 		places[task.place_id].tasks.push(task);
 
@@ -122,19 +119,19 @@ $(document).ready(function () {
             // nothing yet
         });
 
-        $('#new-task .title').val("");
-        $('#new-task .description').val("");
-        $('#new-task .priority').val(3);
+        $('#tasks-page .title').val("");
+        $('#tasks-page .description').val("");
+        $('#tasks-page .priority').val(3);
         showLog(task.place_id);
         return false;
     });
 	
-	  $("#new-report form").submit(function() {
+	  $("#reports-page form").submit(function() {
         report = new Report();
-        report.title = $('#new-report .title').val();
-		report.status = $('#new-report .status').val();
-		report.percent_completed = $('#new-report .percent_completed').val();
-		report.notes = $('#new-report .notes').val();
+        report.title = $('#reports-page .title').val();
+		report.status = $('#reports-page .status').val();
+		report.percent_completed = $('#reports-page .percent_completed').val();
+		report.notes = $('#reports-page .notes').val();
         report.place_id = selectedPlace.id;
 		places[report.place_id].reports.push(report);
 		
@@ -145,10 +142,10 @@ $(document).ready(function () {
             // nothing yet
         });
 
-        $('#new-report .title').val("");
-        $('#new-report .notes').val("");
-        $('#new-report .status').val("");
-        $('#new-report .percent_completed').val(0);
+        $('#reports-page .title').val("");
+        $('#reports-page .notes').val("");
+        $('#reports-page .status').val("");
+        $('#reports-page .percent_completed').val(0);
         showLog(report.place_id);
         return false;
     });
@@ -169,45 +166,50 @@ function addMarker(place) {
 
 
 function showLog(place_id) {
+	document.location.href = "/geocamCover/#logs-page";
 	place = places[place_id];
-    $('#place-log .name').html(place.name);
-    $('#place-log').show();
-    $('#new-task').hide();
-    $('#new-report').hide();
+    $('#logs-page h1').append(place.name);
+    $('#logs-page a').removeClass("ui-btn-active");
     selectedPlace = place;
+	
+	var noTasksAndReports = true;
 
 	$('#logs').empty();
 	for(var task in place.tasks){
 		task = place.tasks[task];
 		$('#logs').append("<li><a href='#'>" + task.title + "</a></li>");
+		noTasksAndReports = false;
 	}
 	
 	for(var report in place.reports){
 		report = place.reports[report];
 		$('#logs').append("<li><a href='#'>" + report.title + "</a></li>");
+		noTasksAndReports = false;
 	}
+	
+	if (noTasksAndReports){
+		$('#logs').append('<li>No tasks or reports for this place...</li>');
+	}
+	
+	
+	$('#logs').listview("refresh");
 }
 
 
 function showNewTask() {
-    $("#new-task .name").html(selectedPlace.name);
-    $('#place-log').hide();
-    $('#new-task').show();
+	document.location.href = "/geocamCover/#tasks-page";
+    $('#tasks-page a').removeClass("ui-btn-active");
+    $("#tasks-page .name").html(selectedPlace.name);
 }
 
 
 function showNewReport() {
-    $("#new-report .name").html(selectedPlace.name);
-    $('#place-log').hide();
-    $('#new-report').show();
+	document.location.href = "/geocamCover/#reports-page";
+    $('#reports-page a').removeClass("ui-btn-active");
+    $("#reports-page .name").html(selectedPlace.name);
 }
 
 
 function showMap() {
-    $('#dim').hide();
-    $('#place-form').hide();
-    $('#place-log').hide();
-    $('#new-task').hide();
-    $('#new-report').hide();
-    return false;
+	document.location.href = "/geocamCover/#map-page";
 }
