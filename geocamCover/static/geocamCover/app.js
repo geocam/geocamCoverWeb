@@ -97,13 +97,18 @@ $(document).ready(function () {
     }});
 
 
-    $("#place-form form").submit(function() {
-        place = new Place();
-        place.position = clicked_position;
-        place.name = $('#place-form .name').val();
+    $("#place-form-form, #edit-place-page-form").submit(function(e) {
+		var place;
+		if (e.target.id == "edit-place-page-form"){
+			place = selectedPlace;
+		} else if (e.target.id == "place-form-form"){
+			place = new Place();
+			place.position = clicked_position;
+		}
+        place.name = $(this).find('.name').val();
 
-        var new_place = JSON.stringify({"latitude": clicked_position.lat(),
-            "longitude": clicked_position.lng(), "name": place.name });
+        var new_place = JSON.stringify({"place_id": place.id, "latitude": place.position.lat(),
+            "longitude": place.position.lng(), "name": place.name });
         $.post('/geocamCover/place/', new_place, function(data) {
             place.id = data;
             places[place.id] = place;
@@ -111,7 +116,7 @@ $(document).ready(function () {
             showLog(place.id);
         });
 
-        $('#place-form .name').val("");
+       $(this).find('.name').val("");
 
         hidePlaceForm();
 
@@ -162,10 +167,21 @@ $(document).ready(function () {
         showLog(report.place_id);
         return false;
     });
+	
 
     jQuery("title").html("GeoCam Cover");
 
 });
+
+
+function deletePlace(){
+	var delete_request = JSON.stringify({"place_id": selectedPlace.id});
+	$.post('/geocamCover/delete_place/', delete_request, function(data) {
+		delete places[selectedPlace.id];
+		showMap();
+	});
+}
+
 
 function addMarker(place) {
 
@@ -173,8 +189,9 @@ function addMarker(place) {
         'position': place.position,
         'title': place.name
     }).click(function() {
-                showLog(place.id);
-            });
+		showLog(place.id);
+	});
+	
 }
 
 
@@ -229,10 +246,17 @@ function showNewReport() {
     $("#reports-page .name").html(selectedPlace.name.length == 0 ? "Unnamed Place" : selectedPlace.name);
 }
 
+function showEditPlace(){
+    document.location.href = "/geocamCover/#edit-place-page";
+    $('#edit-place-page a').removeClass("ui-btn-active");
+    $("#edit-place-page h1 .name").html(selectedPlace.name.length == 0 ? "Unnamed Place" : selectedPlace.name);
+    $("#edit-place-page form .name").val(selectedPlace.name);
+}
 
 function showMap() {
     document.location.href = "/geocamCover/#map-page";
 }
+
 
 function pageResize() {
     $('#map_canvas, #place-form, #dim').height($(window).height() - 43);

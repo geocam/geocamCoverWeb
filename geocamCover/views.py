@@ -46,9 +46,22 @@ def place(request):
     if request.method == 'POST':
         user = get_user(request)
         struct = json.loads(request.raw_post_data)
-        place = Place(name=struct['name'], latitude=struct['latitude'], longitude=struct['longitude']
-              , created_by=user)
+        place = Place()
+        if struct['place_id'] != None:
+            place = Place.objects.get(id=struct['place_id'])
+        place.name = struct['name']
+        place.latitude = struct['latitude']
+        place.longitude = struct['longitude']
+        place.created_by = user
         place.save()
+    return HttpResponse(place.id)
+
+
+def delete_place(request):
+    if request.method == 'POST':
+        struct = json.loads(request.raw_post_data)
+        place = Place.objects.get(id=struct["place_id"])
+        place.delete()
     return HttpResponse(place.id)
 
 

@@ -24,7 +24,7 @@
         <div id="dim"></div>
 		<div id="map_canvas"></div>
 		<div id="place-form">
-			<form>
+			<form id="place-form-form">
 				<h1>Do you want to add this as a place?</h1>
 				<input style='width:95%' class="name" type="text" placeholder="Place Name... (optional)"/>
 				<input type="submit" value="Add Place"/>
@@ -40,7 +40,7 @@
    <div data-role="header">
 		<a href="#" data-rel="back" data-icon="arrow-l">Back</a>
 		<h1 class='name'></h1>
-		<a href="#" class="ui-btn-right" data-icon="gear" data-role="button">Edit</a>
+		<a href="#" onclick="showEditPlace();" class="ui-btn-right" data-icon="gear" data-role="button">Edit</a>
 	</div>
 	
 	<div data-role="content">
@@ -107,6 +107,20 @@
 
 
 <div id="edit-place-page" data-role="page">
+	<div data-role="header">
+		<a href="#" data-rel="back" data-icon="delete">Cancel</a>
+		<h1>Edit '<span class='name'></span>'</h1>
+		<a href="#" onclick="deletePlace();" data-role="button" data-icon="delete">Delete</a>
+	</div>
+	<div data-role="content">
+		<form id="edit-place-page-form">
+			<input type='text' class='name'/>
+			<input type="submit" value="Update Place"/>
+		</form>
+
+		<input type="button" value="Back to Logs" onclick="return showLog(selectedPlace);"/>
+		<input type="submit" value="Back to Map" onclick="return showMap();"/>
+	</div>
 </div>
 
 
