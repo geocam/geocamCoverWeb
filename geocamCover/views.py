@@ -84,7 +84,7 @@ def task(request):
         task.created_by=user
 
         task.save()
-        return HttpResponse(task.id)
+        return HttpResponse(str(task.id)+","+str(task.modified_at))
     else:
         return HttpResponse("error")
 
@@ -108,7 +108,7 @@ def report(request):
         report.created_by=user
         report.save()
 
-        return HttpResponse(report.id)
+        return HttpResponse(str(report.id)+","+str(report.modified_at))
     else:
         return HttpResponse("error")
 

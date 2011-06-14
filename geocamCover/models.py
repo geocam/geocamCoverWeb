@@ -37,7 +37,7 @@ class Report(models.Model):
 
     def get_struct(self):
         return {"id":self.id, "place_id": self.place_id, "title": self.title, "notes": self.notes, "status": self.status,
-                "percent_completed": self.percent_completed}
+                "percent_completed": self.percent_completed, "modified_at": str(self.modified_at)}
 
 
 class Task(models.Model):
@@ -55,7 +55,7 @@ class Task(models.Model):
 
     def get_struct(self):
         return {"id": self.id, "place_id": self.place_id, "title": self.title, "description": self.description,
-                "priority": self.priority}
+                "priority": self.priority, "modified_at": str(self.modified_at)}
 
 
 
