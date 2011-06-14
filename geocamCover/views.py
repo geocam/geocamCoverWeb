@@ -54,7 +54,9 @@ def place(request):
         place.longitude = struct['longitude']
         place.created_by = user
         place.save()
-    return HttpResponse(place.id)
+        return HttpResponse(place.id)
+    else:
+        return HttpResponse("error")
 
 
 def delete_place(request):
@@ -62,7 +64,9 @@ def delete_place(request):
         struct = json.loads(request.raw_post_data)
         place = Place.objects.get(id=struct["place_id"])
         place.delete()
-    return HttpResponse(place.id)
+        return HttpResponse(place.id)
+    else:
+        return HttpResponse("error")
 
 
 def task(request):
@@ -70,9 +74,19 @@ def task(request):
         user = get_user(request)
         struct = json.loads(request.raw_post_data)
         place = Place.objects.get(id=struct['place_id'])
-        Task(place=place, title=struct['title'], priority=struct['priority'], description=struct['description']
-              ,created_by=user).save()
-    return HttpResponse("ok")
+        task = Task()
+        if struct['task_id'] != None:
+            task = Task.objects.get(id=struct['task_id'])
+        task.place=place
+        task.title=struct['title']
+        task.priority=struct['priority']
+        task.description=struct['description']
+        task.created_by=user
+
+        task.save()
+        return HttpResponse(task.id)
+    else:
+        return HttpResponse("error")
 
 
 def report(request):
@@ -80,9 +94,23 @@ def report(request):
         user = get_user(request)
         struct = json.loads(request.raw_post_data)
         place = Place.objects.get(id=struct['place_id'])
-        Report(place=place, title=struct['title'], percent_completed=struct['percent_completed'], notes=struct['notes'],
-              status=struct['status'],created_by=user).save()
-    return HttpResponse("ok")
+
+        report = Report()
+        if struct['report_id'] != None:
+            report = Report.objects.get(id=struct['report_id'])
+
+        report.place=place
+        report.title=struct['title']
+        report.percent_completed=struct['percent_completed']
+        
+        report.notes=struct['notes']
+        report.status=struct['status']
+        report.created_by=user
+        report.save()
+
+        return HttpResponse(report.id)
+    else:
+        return HttpResponse("error")
 
 
 def get_user(request):
