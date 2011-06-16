@@ -21,28 +21,9 @@ class Place(models.Model):
     def get_struct(self):
         return {"id": self.id, "name": self.name, "latitude": self.latitude, "longitude": self.longitude}
 
-   
-class Report(models.Model):
-    place = models.ForeignKey(Place)
-    title = models.CharField(max_length=200, blank=True)
-    status = models.CharField(max_length=200, blank=True)
-    notes = models.CharField(max_length=1000, blank=True)
-    percent_completed = models.IntegerField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(User)
-
-    def __unicode__(self):
-        return self.name
-
-    def get_struct(self):
-        return {"id":self.id, "place_id": self.place_id, "title": self.title, "notes": self.notes, "status": self.status,
-                "percent_completed": self.percent_completed, "modified_at": str(self.modified_at)}
-
 
 class Task(models.Model):
     place = models.ForeignKey(Place)
-    #    report = models.ForeignKey(Report)
     title = models.CharField(max_length=200, blank=True)
     description = models.CharField(max_length=1000, blank=True)
     priority = models.IntegerField(null=True)
@@ -57,5 +38,23 @@ class Task(models.Model):
         return {"id": self.id, "place_id": self.place_id, "title": self.title, "description": self.description,
                 "priority": self.priority, "modified_at": str(self.modified_at)}
 
+
+class Report(models.Model):
+    place = models.ForeignKey(Place)
+    task = models.ForeignKey(Task, null=True)
+    title = models.CharField(max_length=200, blank=True)
+    status = models.CharField(max_length=200, blank=True)
+    notes = models.CharField(max_length=1000, blank=True)
+    percent_completed = models.IntegerField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User)
+
+    def __unicode__(self):
+        return self.name
+
+    def get_struct(self):
+        return {"id":self.id, "task_id":self.task_id, "place_id": self.place_id, "title": self.title, "notes": self.notes, "status": self.status,
+                "percent_completed": self.percent_completed, "modified_at": str(self.modified_at)}
 
 

@@ -58,6 +58,7 @@
 	<div data-role="header">
 		<a href="#" data-rel="back" data-icon="delete">Cancel</a>
 		<h1></h1>
+		<a class="delete-button" href="#" onclick="deleteTask();" data-role="button" data-icon="delete">Delete</a>
 	</div>
 
 	<div data-role="content">
@@ -78,16 +79,23 @@
 	<div data-role="header">
 		<a href="#" data-rel="back" data-icon="delete">Cancel</a>
 		<h1></h1>
+		<a class="delete-button" href="#" onclick="deleteReport();" data-role="button" data-icon="delete">Delete</a>
 	</div>
 	<div data-role="content">
 	<form>
 		<input type='text' class='title' placeholder='Report Title...'/>
-			<select class="status">
-				<option disabled>Status</option>
-				<option>Temp 1</option>
-				<option>Temp 2</option>
-				<option>Temp 3</option>
-			</select>
+			<div class="select-status">
+				<select class="status">
+					<option selected value>Status</option>
+					<option>Temp 1</option>
+					<option>Temp 2</option>
+					<option>Temp 3</option>
+				</select>
+			</div>
+			<div class="select-task">
+				<select class="task">
+				</select>
+			</div>
 
 			<div>
 				<input type="range" name="points" min="0" max="100" value="0" class="percent-completed"/>
@@ -122,54 +130,6 @@
 	</div>
 </div>
 
-
-{#<div id="edit-task-page" data-role="page">#}
-{#	<div data-role="header">#}
-{#		<a href="#" data-rel="back" data-icon="delete">Cancel</a>#}
-{#		<h1>Edit '<span class='name'></span>'</h1>#}
-{#		<a href="#" onclick="deleteTask();" data-role="button" data-icon="delete">Delete</a>#}
-{#	</div>#}
-{#	#}
-{#	<div data-role="content">#}
-{#		<form>#}
-{#			<input type='text' class='title' /><br/>#}
-{#			<input type="range" name="points" min="1" max="5" class="priority"/>#}
-{#			<textarea class="description"></textarea>#}
-{#			<input type="submit" value="Update Task"/>#}
-{#		</form>#}
-{#		#}
-{#		<input type="button" value="Back to Logs" onclick="return showLog(selectedPlace);"/>#}
-{#		<input type="submit" value="Back to Map" onclick="return showMap();"/>#}
-{#	</div>#}
-{#</div>#}
-{##}
-{#<div id="edit-report-page" data-role="page">#}
-{#	<div data-role="header">#}
-{#		<a href="#" data-rel="back" data-icon="delete">Cancel</a>#}
-{#		<h1>Edit '<span class='name'></span>'</h1>#}
-{#		<a href="#" onclick="deleteReport();" data-role="button" data-icon="delete">Delete</a>#}
-{#	</div>#}
-{#	<div data-role="content">#}
-{#		<form>#}
-{#			<input type='text' class='title'/>#}
-{#			<select class="status">#}
-{#				<option disabled>Status</option>#}
-{#				<option>Temp 1</option>#}
-{#				<option>Temp 2</option>#}
-{#				<option>Temp 3</option>#}
-{#			</select>#}
-{##}
-{#			<div>#}
-{#				<input type="range" name="points" min="0" max="100"  class="percent_completed"/>#}
-{#			</div>#}
-{#			<textarea class="notes"></textarea>#}
-{#			<input type="submit" value="Update Report"/>#}
-{#		</form>#}
-{##}
-{#		<input type="button" value="Back to Logs" onclick="return showLog(selectedPlace);"/>#}
-{#		<input type="submit" value="Back to Map" onclick="return showMap();"/>#}
-{#	</div>#}
-{#</div>#}
 
 
 </body>

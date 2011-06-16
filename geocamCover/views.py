@@ -59,12 +59,14 @@ def place(request):
         return HttpResponse("error")
 
 
-def delete_place(request):
-    if request.method == 'POST':
+def delete_item(request):
+    if request.method == 'DELETE':
         struct = json.loads(request.raw_post_data)
-        place = Place.objects.get(id=struct["place_id"])
-        place.delete()
-        return HttpResponse(place.id)
+        item = None
+        exec "item = %s.objects.get(id=%s)" % (struct["type"], struct["id"])
+        item_id = item.id
+        item.delete()
+        return HttpResponse(item_id)
     else:
         return HttpResponse("error")
 
@@ -106,8 +108,13 @@ def report(request):
         report.notes=struct['notes']
         report.status=struct['status']
         report.created_by=user
-        report.save()
 
+        if struct['task_id'] != None and struct['task_id'] != "":
+            task = Task.objects.get(id=struct['task_id'])
+            report.task = task
+           
+        report.save()
+            
         return HttpResponse(str(report.id)+","+str(report.modified_at))
     else:
         return HttpResponse("error")
