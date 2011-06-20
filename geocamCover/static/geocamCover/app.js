@@ -136,8 +136,8 @@ $(document).ready(function () {
         task.id = taskId;
         task.title = $('#tasks-page .title').val();
         task.description = $('#tasks-page .description').val();
-        task.priority = $('#tasks-page .priority').val();
-        task.place_id = selectedPlace.id;
+        task.priority = $('#tasks-page .star:checked').val() || 0;
+		task.place_id = selectedPlace.id;
 
 
         var new_task = JSON.stringify({"task_id":task.id,"place_id": task.place_id, "title": task.title,
@@ -315,7 +315,7 @@ function showNewTask() {
 
     //Initializing the form elements
     $("#tasks-page .title").val("");
-    $("#tasks-page .priority").val(3);
+	$('input').rating('drain');
     $("#tasks-page .description").val("");
     $("#tasks-page .submit-button").val("Submit Task");
 	$("#tasks-page .delete-button").hide();
@@ -338,7 +338,7 @@ function showNewReport() {
 	$("#reports-page .delete-button").hide();
 	populateTasksForReport(null);
     $("#reports-page .status").val("");
-	$("#reports-page .select-status .ui-btn-text").html("Status");
+	$("#reports-page .select-status .ui-btn-text").html("Not Selected");
 
     document.location.href = "/geocamCover/#reports-page";
 
@@ -354,7 +354,10 @@ function showEditTask(task_id) {
 
     //Setting form elements
     $("#tasks-page .title").val(task.title);
-    $("#tasks-page .priority").val(task.priority);
+	if (task.priority > 0)
+		$('input').rating('select', task.priority - 1)
+	else 
+		$('input').rating('drain');
     $("#tasks-page .description").val(task.description);
     $("#tasks-page .submit-button").val("Update Task");
 	$("#tasks-page .delete-button").show();
@@ -374,7 +377,7 @@ function showEditReport(report_id) {
     //Setting form elements
     $("#reports-page .title").val(report.title);
     $("#reports-page .status").val(report.status);
-	$("#reports-page .select-status .ui-btn-text").html(report.status);
+	$("#reports-page .select-status .ui-btn-text").html($("#reports-page .status option:selected").text());
     $("#reports-page .percent-completed").val(report.percentCompleted);
     $("#reports-page .notes").val(report.notes);
     $("#reports-page .submit-button").val("Update Report");
