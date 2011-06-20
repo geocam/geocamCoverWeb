@@ -67,6 +67,7 @@ $(document).ready(function () {
                         task.title = t.title;
                         task.description = t.description;
                         task.modified_at = new Date(t.modified_at);
+												task.modified_at_str = t.modified_at;
                         place.tasks[task.id] = task;
                     }
 
@@ -80,6 +81,7 @@ $(document).ready(function () {
                         report.notes = r.notes;
                         report.status = r.status;
                         report.modified_at = new Date(r.modified_at);
+												report.modified_at_str = r.modified_at
 						report.task_id = r.task_id;
                         place.reports[report.id] = report;
                     }
@@ -148,6 +150,7 @@ $(document).ready(function () {
 
             task.id = temp_array[0];
             task.modified_at = new Date(temp_array[1]);
+						task.modified_at_str = temp_array[1];
             places[task.place_id].tasks[task.id] = task;
             showLog(task.place_id);
 
@@ -182,6 +185,7 @@ $(document).ready(function () {
             var temp_array = data.split(",");
             report.id = temp_array[0];
             report.modified_at = new Date(temp_array[1]);
+						report.modified_at_str = temp_array[1];
             places[report.place_id].reports[report.id] = report;
             showLog(report.place_id);
         });
@@ -198,41 +202,50 @@ $(document).ready(function () {
 
 
 function deletePlace() {
-    var delete_request = JSON.stringify({"type": "Place", "id": selectedPlace.id});
-    $.ajax({url: '/geocamCover/delete_item/', 
-			data: delete_request, 
-			type: "DELETE",
-			success: function(data) {
-				selectedPlace.marker.setVisible(false);
-				delete places[selectedPlace.id];
-				showMap();
-			}
-    });
+	var c = confirm("Are you sure?");
+	if (!c)
+		return false;
+  var delete_request = JSON.stringify({"type": "Place", "id": selectedPlace.id});
+  $.ajax({url: '/geocamCover/delete_item/', 
+	data: delete_request, 
+	type: "DELETE",
+	success: function(data) {
+		selectedPlace.marker.setVisible(false);
+		delete places[selectedPlace.id];
+		showMap();
+	}
+  });
 }
 
 
 function deleteTask() {
-    var delete_request = JSON.stringify({"type": "Task", "id": taskId});
-    $.ajax({url: '/geocamCover/delete_item/', 
-			data: delete_request, 
-			type: "DELETE",
-			success: function(data) {
-				delete places[selectedPlace.id].tasks[taskId];
-				showLog(selectedPlace.id);
-			}
-    });
+	var c = confirm("Are you sure?");
+	if (!c)
+		return false;
+  var delete_request = JSON.stringify({"type": "Task", "id": taskId});
+  $.ajax({url: '/geocamCover/delete_item/', 
+	data: delete_request, 
+	type: "DELETE",
+	success: function(data) {
+		delete places[selectedPlace.id].tasks[taskId];
+		showLog(selectedPlace.id);
+	}
+  });
 }
 
 function deleteReport() {
-    var delete_request = JSON.stringify({"type": "Report", "id": reportId});
-    $.ajax({url: '/geocamCover/delete_item/', 
-			data: delete_request, 
-			type: "DELETE",
-			success: function(data) {
-				delete places[selectedPlace.id].reports[reportId];
-				showLog(selectedPlace.id);
-			}
-    });
+	var c = confirm("Are you sure?");
+	if (!c)
+		return false;
+  var delete_request = JSON.stringify({"type": "Report", "id": reportId});
+  $.ajax({url: '/geocamCover/delete_item/', 
+	data: delete_request, 
+	type: "DELETE",
+	success: function(data) {
+		delete places[selectedPlace.id].reports[reportId];
+		showLog(selectedPlace.id);
+	}
+  });
 }
 
 function addMarker(place) {
@@ -250,7 +263,7 @@ function addMarker(place) {
     places[place.id].marker = place_marker;
 }
 
-function showLog(place_id) {
+function showLog(place_id, blah) {
     place = places[place_id];
 
     $('#logs-page h1').html(place.name.length == 0 ? 'Unnamed Place' : place.name);
@@ -262,7 +275,14 @@ function showLog(place_id) {
     $('#logs').empty();
 
     var logList = new Array();
-    logList = place.tasks.concat(place.reports);
+
+		for (var t in place.tasks) {
+			logList.push(place.tasks[t])
+		}
+		
+		for (var r in place.reports) {
+			logList.push(place.reports[r])
+		}
 
     logList.sort(function(a, b) {
         return b.modified_at - a.modified_at
@@ -273,11 +293,11 @@ function showLog(place_id) {
 
         if (logList[log_id] instanceof Task) {
             task = logList[log_id];
-            $('#logs').append("<li><a href='#' onclick='showEditTask(" + task.id + ");'> Task: " + task.title + "</a></li>");
+            $('#logs').append("<li><a href='#' onclick='showEditTask(" + task.id + ");'> Task: " + task.title + " (" + task.modified_at_str + ")</a></li>");
         }
         else {
             report = logList[log_id];
-            $('#logs').append("<li><a href='#' onclick='showEditReport(" + report.id + ");'> Report: " + report.title + "</a></li>");
+            $('#logs').append("<li><a href='#' onclick='showEditReport(" + report.id + ");'> Report: " + report.title + " (" + report.modified_at_str + ")</a></li>");
         }
 
         noTasksAndReports = false;
@@ -391,17 +411,17 @@ function showEditReport(report_id) {
 function populateTasksForReport(selectedId){
 	$("#reports-page .task").empty();
 	var selected = selectedId == null ? " selected " : "";
-	var spanText = "Task";
-	$("#reports-page .task").append("<option value" + selected + ">Task</task>");
+	var spanText = "Is this related to a task?";
+	$("#reports-page .task").append("<option value" + selected + ">" + spanText + "</option>");
 	
 	for (var task_id in selectedPlace.tasks){
 		if (task_id == selectedId){
 			selected =  " selected"
-			spanText = selectedPlace.tasks[task_id].title;
+			spanText = "Task: " + selectedPlace.tasks[task_id].title;
 		} else {
 			selected =  ""
 		}
-		$("#reports-page .task").append("<option value=" + task_id + selected + ">" + selectedPlace.tasks[task_id].title + "</option>");
+		$("#reports-page .task").append("<option value=" + task_id + selected + ">Task: " + selectedPlace.tasks[task_id].title + "</option>");
 	}
 	$("#reports-page .select-task .ui-btn-text").html(spanText);
 }

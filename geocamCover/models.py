@@ -6,6 +6,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 class Place(models.Model):
     name = models.CharField(max_length=200, blank=True)
@@ -36,12 +37,12 @@ class Task(models.Model):
 
     def get_struct(self):
         return {"id": self.id, "place_id": self.place_id, "title": self.title, "description": self.description,
-                "priority": self.priority, "modified_at": str(self.modified_at)}
+                "priority": self.priority, "modified_at": self.modified_at.strftime("%m/%d/%Y %H:%M:%S") }
 
 
 class Report(models.Model):
     place = models.ForeignKey(Place)
-    task = models.ForeignKey(Task, null=True)
+    task = models.ForeignKey(Task, null=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=200, blank=True)
     status = models.IntegerField(null=True)
     notes = models.CharField(max_length=1000, blank=True)
@@ -55,6 +56,6 @@ class Report(models.Model):
 
     def get_struct(self):
         return {"id":self.id, "task_id":self.task_id, "place_id": self.place_id, "title": self.title, "notes": self.notes, "status": self.status,
-                "percent_completed": self.percent_completed, "modified_at": str(self.modified_at)}
+                "percent_completed": self.percent_completed, "modified_at": self.modified_at.strftime("%m/%d/%Y %H:%M:%S")}
 
 

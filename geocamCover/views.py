@@ -13,6 +13,7 @@ from django.template import Context, loader, RequestContext
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
 from django.contrib.auth.models import  User
 from geocamCover.models import Place, Task, Report
+from datetime import datetime
 
 
 def index(request):
@@ -86,7 +87,7 @@ def task(request):
         task.created_by=user
 
         task.save()
-        return HttpResponse(str(task.id)+","+str(task.modified_at))
+        return HttpResponse(str(task.id)+","+ task.modified_at.strftime("%m/%d/%Y %H:%M:%S"))
     else:
         return HttpResponse("error")
 
@@ -115,7 +116,7 @@ def report(request):
            
         report.save()
             
-        return HttpResponse(str(report.id)+","+str(report.modified_at))
+        return HttpResponse(str(report.id)+","+ report.modified_at.strftime("%m/%d/%Y %H:%M:%S"))
     else:
         return HttpResponse("error")
 
