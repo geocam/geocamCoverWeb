@@ -273,11 +273,11 @@ function showLog(place_id) {
 
         if (logList[log_id] instanceof Task) {
             task = logList[log_id];
-            $('#logs').append("<li><a href='#' onclick='showEditTask(" + task.id + ");'>" + task.title + "</a></li>");
+            $('#logs').append("<li><a href='#' onclick='showEditTask(" + task.id + ");'> Task: " + task.title + "</a></li>");
         }
         else {
             report = logList[log_id];
-            $('#logs').append("<li><a href='#' onclick='showEditReport(" + report.id + ");'>" + report.title + "</a></li>");
+            $('#logs').append("<li><a href='#' onclick='showEditReport(" + report.id + ");'> Report: " + report.title + "</a></li>");
         }
 
         noTasksAndReports = false;
