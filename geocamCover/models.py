@@ -43,7 +43,7 @@ class Report(models.Model):
     place = models.ForeignKey(Place)
     task = models.ForeignKey(Task, null=True)
     title = models.CharField(max_length=200, blank=True)
-    status = models.CharField(max_length=200, blank=True)
+    status = models.IntegerField(null=True)
     notes = models.CharField(max_length=1000, blank=True)
     percent_completed = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
