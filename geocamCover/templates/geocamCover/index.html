@@ -29,6 +29,7 @@
 			<form id="place-form-form">
 				<h1>Do you want to add this as a place?</h1>
 				<input style='width:95%' class="name" type="text" placeholder="Place Name... (optional)"/>
+				<select id="categories-select"></select>
 				<input type="submit" value="Add Place"/>
 				<input type="button" value="Back to Map" onclick="hidePlaceForm();"/>
 			</form>
@@ -152,6 +153,7 @@
 	<div data-role="content">
 		<form id="edit-place-page-form">
 			<input type='text' class='name' placeholder="Name"/>
+			<select id="edit-categories-select"></select>
 			<input type="submit" value="Update Place"/>
 		</form>
 

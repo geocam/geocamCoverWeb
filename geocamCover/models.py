@@ -8,19 +8,31 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
+CATEGORIES = (
+    (0, ''),
+	(1, 'Hospital'),
+    (2, 'Gas Station'),
+    (3, 'Place of Worship'),
+)
+
 class Place(models.Model):
     name = models.CharField(max_length=200, blank=True)
     longitude = models.FloatField(null=True)
     latitude = models.FloatField(null=True)
+    category = models.IntegerField(max_length=1, choices=CATEGORIES)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User)
+
+    @staticmethod
+    def get_categories():
+        return CATEGORIES
 
     def __unicode__(self):
         return self.name
 
     def get_struct(self):
-        return {"id": self.id, "name": self.name, "latitude": self.latitude, "longitude": self.longitude}
+        return {"id": self.id, "name": self.name, "latitude": self.latitude, "longitude": self.longitude, "category": self.category}
 
 
 class Task(models.Model):

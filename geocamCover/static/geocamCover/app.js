@@ -29,6 +29,7 @@ function Place() {
     this.reports = [];
     this.tasks = [];
     this.marker = null;
+	this.category = null;
 }
 
 var places = [];
@@ -42,7 +43,9 @@ $(window).resize(function() {
 });
 
 $(document).ready(function () {
-
+    
+	populateCategories();
+	
     //MOFFETT FIELD COORDINATES
     var latlng = new google.maps.LatLng(37.41288, -122.052934);
     $('#map_canvas').gmap({
@@ -57,6 +60,7 @@ $(document).ready(function () {
                     place.id = val.place.id;
                     place.position = latlng;
                     place.name = val.place.name;
+					place.category = val.place.category;
 
                     for (var t in val.tasks) {
                         t = val.tasks[t];
@@ -109,14 +113,16 @@ $(document).ready(function () {
         var place;
         if (e.target.id == "edit-place-page-form") {
             place = selectedPlace;
+			place.category = $('#edit-categories-select').val();
         } else if (e.target.id == "place-form-form") {
             place = new Place();
             place.position = clicked_position;
+			place.category = $('#categories-select').val();
         }
         place.name = $(this).find('.name').val();
 
         var new_place = JSON.stringify({"place_id": place.id, "latitude": place.position.lat(),
-            "longitude": place.position.lng(), "name": place.name });
+            "longitude": place.position.lng(), "name": place.name, "category": place.category });
         $.post('/geocamCover/place/', new_place, function(data) {
             place.id = data;
             places[place.id] = place;
@@ -125,8 +131,10 @@ $(document).ready(function () {
         });
 
         $(this).find('.name').val("");
-
-        hidePlaceForm();
+		$('#categories-select').val("0");
+		$('#categories-select').parent().find('.ui-btn-text').empty();
+        
+		hidePlaceForm();
 
         return false;
     });
@@ -199,6 +207,18 @@ $(document).ready(function () {
     jQuery("title").html("GeoCam Cover");
 
 });
+
+function populateCategories() {
+	$.getJSON('/geocamCover/categories.json', function(data) {
+		categoriesSelect = $('#categories-select');
+		editCategoriesSelect = $('#edit-categories-select');
+		$.each(data, function(key, val) {
+			var elem = '<option value="' + key + '">' + val + '</option>';
+			categoriesSelect.append(elem);
+			editCategoriesSelect.append(elem);
+		});
+	});
+}
 
 
 function deletePlace() {
@@ -322,7 +342,8 @@ function showEditPlace() {
     $('#edit-place-page a').removeClass("ui-btn-active");
     $("#edit-place-page h1 .name").html(selectedPlace.name.length == 0 ? "Unnamed Place" : selectedPlace.name);
     $("#edit-place-page form .name").val(selectedPlace.name);
-
+	$("#edit-categories-select").val(selectedPlace.category);
+	$("#edit-categories-select").parent().find(".ui-btn-text").html($("#edit-categories-select option:selected").text());
     document.location.href = "/geocamCover/#edit-place-page";
 }
 

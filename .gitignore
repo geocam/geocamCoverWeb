@@ -9,5 +9,6 @@
 /static/css/*.r*.css
 /geocamCover/build
 /geocamUtil
+/geocamUtilWeb
 /.idea
 *.db
