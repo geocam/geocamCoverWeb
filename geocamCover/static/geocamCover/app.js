@@ -29,7 +29,7 @@ function Place() {
     this.reports = [];
     this.tasks = [];
     this.marker = null;
-	this.category = null;
+    this.category = null;
 }
 
 var places = [];
@@ -43,9 +43,9 @@ $(window).resize(function() {
 });
 
 $(document).ready(function () {
-    
-	populateCategories();
-	
+
+    populateCategories();
+
     //MOFFETT FIELD COORDINATES
     var latlng = new google.maps.LatLng(37.41288, -122.052934);
     $('#map_canvas').gmap({
@@ -60,7 +60,7 @@ $(document).ready(function () {
                     place.id = val.place.id;
                     place.position = latlng;
                     place.name = val.place.name;
-					place.category = val.place.category;
+                    place.category = val.place.category;
 
                     for (var t in val.tasks) {
                         t = val.tasks[t];
@@ -71,7 +71,7 @@ $(document).ready(function () {
                         task.title = t.title;
                         task.description = t.description;
                         task.modified_at = new Date(t.modified_at);
-												task.modified_at_str = t.modified_at;
+                        task.modified_at_str = t.modified_at;
                         place.tasks[task.id] = task;
                     }
 
@@ -85,8 +85,8 @@ $(document).ready(function () {
                         report.notes = r.notes;
                         report.status = r.status;
                         report.modified_at = new Date(r.modified_at);
-												report.modified_at_str = r.modified_at
-						report.task_id = r.task_id;
+                        report.modified_at_str = r.modified_at
+                        report.task_id = r.task_id;
                         place.reports[report.id] = report;
                     }
                     places[place.id] = place;
@@ -102,6 +102,7 @@ $(document).ready(function () {
     $('#map_canvas').gmap({'callback':function(map) {
         $(map).click(function(event) {
             $('#place-form').show();
+            $('#categories-select').parent().find('.ui-btn-text').html("Select Category");
             $('#dim').show();
             clicked_position = event.latLng;
         });
@@ -113,11 +114,11 @@ $(document).ready(function () {
         var place;
         if (e.target.id == "edit-place-page-form") {
             place = selectedPlace;
-			place.category = $('#edit-categories-select').val();
+            place.category = $('#edit-categories-select').val();
         } else if (e.target.id == "place-form-form") {
             place = new Place();
             place.position = clicked_position;
-			place.category = $('#categories-select').val();
+            place.category = $('#categories-select').val();
         }
         place.name = $(this).find('.name').val();
 
@@ -131,10 +132,10 @@ $(document).ready(function () {
         });
 
         $(this).find('.name').val("");
-		$('#categories-select').val("0");
-		$('#categories-select').parent().find('.ui-btn-text').empty();
-        
-		hidePlaceForm();
+        $('#categories-select').val("0");
+        $('#categories-select').parent().find('.ui-btn-text').html("Select Category");
+
+        hidePlaceForm();
 
         return false;
     });
@@ -147,7 +148,7 @@ $(document).ready(function () {
         task.title = $('#tasks-page .title').val();
         task.description = $('#tasks-page .description').val();
         task.priority = $('#tasks-page .star:checked').val() || 0;
-		task.place_id = selectedPlace.id;
+        task.place_id = selectedPlace.id;
 
 
         var new_task = JSON.stringify({"task_id":task.id,"place_id": task.place_id, "title": task.title,
@@ -158,7 +159,7 @@ $(document).ready(function () {
 
             task.id = temp_array[0];
             task.modified_at = new Date(temp_array[1]);
-						task.modified_at_str = temp_array[1];
+            task.modified_at_str = temp_array[1];
             places[task.place_id].tasks[task.id] = task;
             showLog(task.place_id);
 
@@ -174,7 +175,7 @@ $(document).ready(function () {
         report.id = reportId;
         report.title = $('#reports-page .title').val();
         report.status = $('#reports-page .status').val();
-		report.task_id = $('#reports-page .task').val(); 
+        report.task_id = $('#reports-page .task').val();
 
         var percent_completed = $('#reports-page .percent-completed').val()
 
@@ -193,7 +194,7 @@ $(document).ready(function () {
             var temp_array = data.split(",");
             report.id = temp_array[0];
             report.modified_at = new Date(temp_array[1]);
-						report.modified_at_str = temp_array[1];
+            report.modified_at_str = temp_array[1];
             places[report.place_id].reports[report.id] = report;
             showLog(report.place_id);
         });
@@ -209,63 +210,63 @@ $(document).ready(function () {
 });
 
 function populateCategories() {
-	$.getJSON('/geocamCover/categories.json', function(data) {
-		categoriesSelect = $('#categories-select');
-		editCategoriesSelect = $('#edit-categories-select');
-		$.each(data, function(key, val) {
-			var elem = '<option value="' + key + '">' + val + '</option>';
-			categoriesSelect.append(elem);
-			editCategoriesSelect.append(elem);
-		});
-	});
+    $.getJSON('/geocamCover/categories.json', function(data) {
+        categoriesSelect = $('#categories-select');
+        editCategoriesSelect = $('#edit-categories-select');
+        $.each(data, function(key, val) {
+            var elem = '<option value="' + key + '">' + val + '</option>';
+            categoriesSelect.append(elem);
+            editCategoriesSelect.append(elem);
+        });
+    });
 }
 
 
 function deletePlace() {
-	var c = confirm("Are you sure?");
-	if (!c)
-		return false;
-  var delete_request = JSON.stringify({"type": "Place", "id": selectedPlace.id});
-  $.ajax({url: '/geocamCover/delete_item/', 
-	data: delete_request, 
-	type: "DELETE",
-	success: function(data) {
-		selectedPlace.marker.setVisible(false);
-		delete places[selectedPlace.id];
-		showMap();
-	}
-  });
+    var c = confirm("Are you sure?");
+    if (!c)
+        return false;
+    var delete_request = JSON.stringify({"type": "Place", "id": selectedPlace.id});
+    $.ajax({url: '/geocamCover/delete_item/',
+        data: delete_request,
+        type: "DELETE",
+        success: function(data) {
+            selectedPlace.marker.setVisible(false);
+            delete places[selectedPlace.id];
+            showMap();
+        }
+    });
 }
 
 
 function deleteTask() {
-	var c = confirm("Are you sure?");
-	if (!c)
-		return false;
-  var delete_request = JSON.stringify({"type": "Task", "id": taskId});
-  $.ajax({url: '/geocamCover/delete_item/', 
-	data: delete_request, 
-	type: "DELETE",
-	success: function(data) {
-		delete places[selectedPlace.id].tasks[taskId];
-		showLog(selectedPlace.id);
-	}
-  });
+    var c = confirm("Are you sure?");
+    if (!c)
+        return false;
+    var delete_request = JSON.stringify({"type": "Task", "id": taskId});
+    $.ajax({url: '/geocamCover/delete_item/',
+        data: delete_request,
+        type: "DELETE",
+        success: function(data) {
+            delete places[selectedPlace.id].tasks[taskId];
+            showLog(selectedPlace.id);
+        }
+    });
 }
 
 function deleteReport() {
-	var c = confirm("Are you sure?");
-	if (!c)
-		return false;
-  var delete_request = JSON.stringify({"type": "Report", "id": reportId});
-  $.ajax({url: '/geocamCover/delete_item/', 
-	data: delete_request, 
-	type: "DELETE",
-	success: function(data) {
-		delete places[selectedPlace.id].reports[reportId];
-		showLog(selectedPlace.id);
-	}
-  });
+    var c = confirm("Are you sure?");
+    if (!c)
+        return false;
+    var delete_request = JSON.stringify({"type": "Report", "id": reportId});
+    $.ajax({url: '/geocamCover/delete_item/',
+        data: delete_request,
+        type: "DELETE",
+        success: function(data) {
+            delete places[selectedPlace.id].reports[reportId];
+            showLog(selectedPlace.id);
+        }
+    });
 }
 
 function addMarker(place) {
@@ -296,13 +297,13 @@ function showLog(place_id, blah) {
 
     var logList = new Array();
 
-		for (var t in place.tasks) {
-			logList.push(place.tasks[t])
-		}
-		
-		for (var r in place.reports) {
-			logList.push(place.reports[r])
-		}
+    for (var t in place.tasks) {
+        logList.push(place.tasks[t])
+    }
+
+    for (var r in place.reports) {
+        logList.push(place.reports[r])
+    }
 
     logList.sort(function(a, b) {
         return b.modified_at - a.modified_at
@@ -342,8 +343,8 @@ function showEditPlace() {
     $('#edit-place-page a').removeClass("ui-btn-active");
     $("#edit-place-page h1 .name").html(selectedPlace.name.length == 0 ? "Unnamed Place" : selectedPlace.name);
     $("#edit-place-page form .name").val(selectedPlace.name);
-	$("#edit-categories-select").val(selectedPlace.category);
-	$("#edit-categories-select").parent().find(".ui-btn-text").html($("#edit-categories-select option:selected").text());
+    $("#edit-categories-select").val(selectedPlace.category);
+    $("#edit-categories-select").parent().find(".ui-btn-text").html($("#edit-categories-select option:selected").text());
     document.location.href = "/geocamCover/#edit-place-page";
 }
 
@@ -356,11 +357,11 @@ function showNewTask() {
 
     //Initializing the form elements
     $("#tasks-page .title").val("");
-	$('input').rating('drain');
+    $('input').rating('drain');
     $("#tasks-page .description").val("");
     $("#tasks-page .submit-button").val("Submit Task");
-	$("#tasks-page .delete-button").hide();
-	
+    $("#tasks-page .delete-button").hide();
+
     document.location.href = "/geocamCover/#tasks-page";
 }
 
@@ -376,10 +377,10 @@ function showNewReport() {
     $("#reports-page .percent-completed").val(0);
     $("#reports-page .notes").val("");
     $("#reports-page .submit-button").val("Submit Report");
-	$("#reports-page .delete-button").hide();
-	populateTasksForReport(null);
+    $("#reports-page .delete-button").hide();
+    populateTasksForReport(null);
     $("#reports-page .status").val("");
-	$("#reports-page .select-status .ui-btn-text").html("Not Selected");
+    $("#reports-page .select-status .ui-btn-text").html("Not Selected");
 
     document.location.href = "/geocamCover/#reports-page";
 
@@ -395,13 +396,13 @@ function showEditTask(task_id) {
 
     //Setting form elements
     $("#tasks-page .title").val(task.title);
-	if (task.priority > 0)
-		$('input').rating('select', task.priority - 1)
-	else 
-		$('input').rating('drain');
+    if (task.priority > 0)
+        $('input').rating('select', task.priority - 1)
+    else
+        $('input').rating('drain');
     $("#tasks-page .description").val(task.description);
     $("#tasks-page .submit-button").val("Update Task");
-	$("#tasks-page .delete-button").show();
+    $("#tasks-page .delete-button").show();
 
     document.location.href = "/geocamCover/#tasks-page";
 
@@ -418,33 +419,33 @@ function showEditReport(report_id) {
     //Setting form elements
     $("#reports-page .title").val(report.title);
     $("#reports-page .status").val(report.status);
-	$("#reports-page .select-status .ui-btn-text").html($("#reports-page .status option:selected").text());
+    $("#reports-page .select-status .ui-btn-text").html($("#reports-page .status option:selected").text());
     $("#reports-page .percent-completed").val(report.percentCompleted);
     $("#reports-page .notes").val(report.notes);
     $("#reports-page .submit-button").val("Update Report");
-	populateTasksForReport(report.task_id);
-	$("#reports-page .delete-button").show();
-	
+    populateTasksForReport(report.task_id);
+    $("#reports-page .delete-button").show();
+
 
     document.location.href = "/geocamCover/#reports-page";
 }
 
-function populateTasksForReport(selectedId){
-	$("#reports-page .task").empty();
-	var selected = selectedId == null ? " selected " : "";
-	var spanText = "Is this related to a task?";
-	$("#reports-page .task").append("<option value" + selected + ">" + spanText + "</option>");
-	
-	for (var task_id in selectedPlace.tasks){
-		if (task_id == selectedId){
-			selected =  " selected"
-			spanText = "Task: " + selectedPlace.tasks[task_id].title;
-		} else {
-			selected =  ""
-		}
-		$("#reports-page .task").append("<option value=" + task_id + selected + ">Task: " + selectedPlace.tasks[task_id].title + "</option>");
-	}
-	$("#reports-page .select-task .ui-btn-text").html(spanText);
+function populateTasksForReport(selectedId) {
+    $("#reports-page .task").empty();
+    var selected = selectedId == null ? " selected " : "";
+    var spanText = "Is this related to a task?";
+    $("#reports-page .task").append("<option value" + selected + ">" + spanText + "</option>");
+
+    for (var task_id in selectedPlace.tasks) {
+        if (task_id == selectedId) {
+            selected = " selected"
+            spanText = "Task: " + selectedPlace.tasks[task_id].title;
+        } else {
+            selected = ""
+        }
+        $("#reports-page .task").append("<option value=" + task_id + selected + ">Task: " + selectedPlace.tasks[task_id].title + "</option>");
+    }
+    $("#reports-page .select-task .ui-btn-text").html(spanText);
 }
 
 
