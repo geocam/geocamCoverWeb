@@ -19,10 +19,13 @@
 <body>
 
 <div id="map-page" data-role="page">
-    <div id="map-header" data-role="header">
-        <h1>GeoCam Cover</h1>
-    </div>
-    <div data-role="content" style='padding:0px'>
+
+	<div id="map-header" data-role="header">
+		<h1>GeoCam Cover</h1>
+		<a onclick="return switchViews();" id="switch-view-button" href="#" data-icon="forward" class="ui-btn-right">Report View</a>
+	</div>
+	<div data-role="content" style='padding:0px'>
+
         <div id="dim"></div>
         <div id="map_canvas"></div>
         <div id="place-form">
@@ -60,37 +63,90 @@
 </div>
 
 <div id="tasks-page" data-role="page">
-    <div data-role="header">
-        <a href="#" data-rel="back" data-icon="delete">Cancel</a>
+
+	<div data-role="header">
+		<a href="#" data-rel="back" data-icon="delete">Cancel</a>
+		<h1></h1>
+		<a class="delete-button" href="#" onclick="deleteTask();" data-role="button" data-icon="delete">Delete</a>
+	</div>
+
+	<div data-role="content">
+		<form>
+			<div>
+				<b class="label">Title:</b><br/>
+				<input type='text' class='title' /><br/>
+			</div>
+			<div style="padding-bottom: 10px;overflow:hidden;width:100%;">
+				<b class="label" style="float:left;margin-top:3px;margin-right:5px;">Priority: </b>
+				<input value="1" name="star1" type="radio" class="star"/>
+				<input value="2" name="star1" type="radio" class="star"/>
+				<input value="3" name="star1" type="radio" class="star"/>
+			</div>
+			<div>
+				<b class="label">Description:</b><br/>
+				<textarea class="description"></textarea>
+			</div>
+			<input type="submit" value="Submit Task" class="submit-button"/>
+		</form>
+
+		<input type="button" value="Back to Logs" onclick="return showLog(selectedPlace.id);"/>
+		<input type="submit" value="Back to Map" onclick="return showMap();"/>
+	</div>
+
 
         <h1></h1>
         <a class="delete-button" href="#" onclick="deleteTask();" data-role="button" data-icon="delete">Delete</a>
     </div>
 
-    <div data-role="content">
-        <form>
-            <div>
-                <b class="label">Title:</b><br/>
-                <input type='text' class='title'/><br/>
-            </div>
-            <div style="padding-bottom: 10px;overflow:hidden;width:100%;">
-                <b class="label" style="float:left;margin-top:3px;margin-right:5px;">Priority: </b>
-                <input value="1" name="star1" type="radio" class="star"/>
-                <input value="2" name="star1" type="radio" class="star"/>
-                <input value="3" name="star1" type="radio" class="star"/>
-                <input value="4" name="star1" type="radio" class="star"/>
-                <input value="5" name="star1" type="radio" class="star"/>
-            </div>
-            <div>
-                <b class="label">Description:</b><br/>
-                <textarea class="description"></textarea>
-            </div>
-            <input type="submit" value="Submit Task" class="submit-button"/>
-        </form>
 
-        <input type="button" value="Back to Logs" onclick="return showLog(selectedPlace.id);"/>
-        <input type="submit" value="Back to Map" onclick="return showMap();"/>
-    </div>
+<div id="reports-page" data-role="page">
+	<div data-role="header">
+		<a href="#" data-rel="back" data-icon="delete">Cancel</a>
+		<h1></h1>
+		<a class="delete-button" href="#" onclick="deleteReport();" data-role="button" data-icon="delete">Delete</a>
+	</div>
+	<div data-role="content">
+	<form>
+		<div>
+			<b class="label">Title:</b><br/>
+			<input type='text' class='title'/>
+		</div>
+		<div>
+			<b class="label">Status:</b><br/>
+			<div class="select-status">
+				<select class="status">
+					<option selected value>Not Selected</option>
+					<option value="0">Disabled by damage, lack of power, etc -- not servicable</option>
+					<option value="1">Red-tagged: inoperable and unsafe to enter</option>
+					<option value="2">Damaged or otherwise impaired but servicable</option>
+					<option value="3">Inactive, out of service (not damaged by event)</option>
+					<option value="4">Potentially unsafe to enter</option>
+					<option value="5">In service with no impairment</option>
+					<option value="6">Unknown, requires assessment</option>
+				</select>
+			</div>
+		</div>
+		<div class="select-task">
+			<select class="task">
+			</select>
+		</div>
+		<div>
+			<b class="label">Percent Completed:</b><br/>
+			<div>
+				<input type="range" name="points" min="0" max="100" value="0" class="percent-completed"/>
+			</div>
+		</div>
+		<div>
+			<b class="label">Notes:</b><br/>
+			<textarea class="notes"></textarea>
+		</div>
+		<input type="submit" value="Submit Report" class="submit-button"/>
+		</form>
+
+		<input type="button" value="Back to Logs" onclick="return showLog(selectedPlace.id);"/>
+		<input type="submit" value="Back to Map" onclick="return showMap();"/>
+	</div>
+
 
 </div>
 
