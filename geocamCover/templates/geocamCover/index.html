@@ -21,6 +21,7 @@
 <div id="map-page" data-role="page">
 	<div id="map-header" data-role="header">
 		<h1>GeoCam Cover</h1>
+		<a onclick="return switchViews();" id="switch-view-button" href="#" data-icon="forward" class="ui-btn-right">Report View</a>
 	</div>
 	<div data-role="content" style='padding:0px'>
         <div id="dim"></div>
@@ -74,8 +75,6 @@
 				<input value="1" name="star1" type="radio" class="star"/>
 				<input value="2" name="star1" type="radio" class="star"/>
 				<input value="3" name="star1" type="radio" class="star"/>
-				<input value="4" name="star1" type="radio" class="star"/>
-				<input value="5" name="star1" type="radio" class="star"/>
 			</div>
 			<div>
 				<b class="label">Description:</b><br/>
@@ -108,12 +107,12 @@
 				<select class="status">
 					<option selected value>Not Selected</option>
 					<option value="0">Disabled by damage, lack of power, etc -- not servicable</option>
-					<option value="1">Damaged or otherwise impaired but servicable</option>
-					<option value="2">Inactive, out of service (not damaged by event)</option>
-					<option value="3">In service with no impairment</option>
-					<option value="4">Red-tagged: inoperable and unsafe to enter</option>
-					<option value="5">Unknown, requires assessment</option>
-					<option value="6">Potentially unsafe to enter</option>
+					<option value="1">Red-tagged: inoperable and unsafe to enter</option>
+					<option value="2">Damaged or otherwise impaired but servicable</option>
+					<option value="3">Inactive, out of service (not damaged by event)</option>
+					<option value="4">Potentially unsafe to enter</option>
+					<option value="5">In service with no impairment</option>
+					<option value="6">Unknown, requires assessment</option>
 				</select>
 			</div>
 		</div>
