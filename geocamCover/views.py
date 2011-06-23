@@ -42,6 +42,14 @@ def places_json(request):
     places = json.dumps(place_hash, sort_keys=True, indent=4)
     return HttpResponse(places, mimetype="application/json")
 
+def categories_json(request):
+    categories_enum = Place.get_categories()
+    categories_hash = {}
+    for id, category in categories_enum:
+		categories_hash[id] = category
+    categories = json.dumps(categories_hash, sort_keys=True, indent=4)
+    return HttpResponse(categories, mimetype="application/json")
+	
 
 def place(request):
     if request.method == 'POST':
@@ -51,6 +59,7 @@ def place(request):
         if struct['place_id'] != None:
             place = Place.objects.get(id=struct['place_id'])
         place.name = struct['name']
+        place.category = struct['category']
         place.latitude = struct['latitude']
         place.longitude = struct['longitude']
         place.created_by = user
