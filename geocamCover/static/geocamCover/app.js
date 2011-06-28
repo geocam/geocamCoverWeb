@@ -39,6 +39,7 @@ var selectedPlace;
 var reportId;
 var taskId;
 var selectedView;
+var myMarker;
 
 var views = ["Task View", "Report View"];
 
@@ -50,7 +51,7 @@ $(window).resize(function() {
 });
 
 $(document).ready(function () {
-
+	initiate_geolocation(); 
 	selectedView = requestView;
 	populateCategories();
 
@@ -107,6 +108,8 @@ $(document).ready(function () {
             });
         }
     });
+	
+	
 
     pageResize();
 
@@ -437,6 +440,7 @@ function showNewTask() {
     $('input').rating('drain');
     $("#tasks-page .description").val("");
     $("#tasks-page .submit-button").val("Submit Task");
+    $("#tasks-page .submit-div .ui-btn-text").html("Submit Task");
     $("#tasks-page .delete-button").hide();
 
     document.location.href = "/geocamCover/#tasks-page";
@@ -454,6 +458,7 @@ function showNewReport() {
     $("#reports-page .percent-completed").val(0);
     $("#reports-page .notes").val("");
     $("#reports-page .submit-button").val("Submit Report");
+    $("#reports-page .submit-div .ui-btn-text").html("Submit Report");
     $("#reports-page .delete-button").hide();
     populateTasksForReport(null);
     $("#reports-page .status").val("");
@@ -478,6 +483,7 @@ function showEditTask(task_id) {
     else
         $('input').rating('drain');
     $("#tasks-page .description").val(task.description);
+    $("#tasks-page .submit-div .ui-btn-text").html("Update Task");
     $("#tasks-page .submit-button").val("Update Task");
     $("#tasks-page .delete-button").show();
 
@@ -500,6 +506,7 @@ function showEditReport(report_id) {
     $("#reports-page .percent-completed").val(report.percentCompleted);
     $("#reports-page .notes").val(report.notes);
     $("#reports-page .submit-button").val("Update Report");
+    $("#reports-page .submit-div .ui-btn-text").html("Update Report");
     populateTasksForReport(report.task_id);
     $("#reports-page .delete-button").show();
 
@@ -562,3 +569,37 @@ function hidePlaceForm() {
     $('#dim').hide();
     $('#place-form').hide();
 }
+
+function initiate_geolocation() {  
+	navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors);  
+}  
+
+function handle_errors(error)  
+{  
+	switch(error.code)  
+	{  
+		case error.PERMISSION_DENIED: alert("user did not share geolocation data");  
+		break;  
+
+		case error.POSITION_UNAVAILABLE: alert("could not detect current position");  
+		break;  
+
+		case error.TIMEOUT: alert("retrieving position timed out");  
+		break;  
+
+		default: alert("unknown error");  
+		break;  
+	}  
+}  
+
+function handle_geolocation_query(position){ 
+    var latlng = new google.maps.LatLng(position.coords.latitude, 
+										position.coords.longitude)
+    $("#map_canvas").gmap('addMarker', {
+                'position': latlng,
+                'title': "You are here"
+				//'icon': "/static/geocamCover/" + placeIcon(place) + ".png"
+            }, function(map, marker) {
+                myMarker = marker;
+     });  
+}  
