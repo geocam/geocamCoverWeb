@@ -188,10 +188,10 @@ $(document).ready(function () {
         report.title = $('#reports-page .title').val();
         report.status = $('#reports-page .status').val();
         report.task_id = $('#reports-page .task').val();
-
+		
+		
         var percent_completed = $('#reports-page .percent-completed').val()
-
-        if (percent_completed == "")
+		 if (percent_completed == "")
             percent_completed = 0;
 
         report.percentCompleted = percent_completed;
@@ -527,6 +527,7 @@ function populateTasksForReport(selectedId) {
 
 
 function switchViews(){
+	jQuery("#switch-view-button .ui-btn-text").html(views[selectedView]);
 	
 	switch (selectedView)
 	{
@@ -542,8 +543,7 @@ function switchViews(){
 		places[p_id].marker.setVisible(false);
 		addMarker(places[p_id]);
 	}
-	jQuery("#switch-view-button .ui-btn-text").html(views[selectedView]);
-	jQuery(".ui-btn-active").removeClass(".ui-btn-active");
+	jQuery(".ui-btn-active").removeClass("ui-btn-active");
 	return false;
 }
 
