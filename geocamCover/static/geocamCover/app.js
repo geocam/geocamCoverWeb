@@ -161,7 +161,7 @@ $(document).ready(function () {
         task.id = taskId;
         task.title = $('#tasks-page .title').val();
         task.description = $('#tasks-page .description').val();
-        task.priority = $('#tasks-page .star:checked').val() || 0;
+        task.priority = $('#tasks-page .priority').val();
         task.place_id = selectedPlace.id;
 
 
@@ -437,11 +437,12 @@ function showNewTask() {
 
     //Initializing the form elements
     $("#tasks-page .title").val("");
-    $('input').rating('drain');
     $("#tasks-page .description").val("");
     $("#tasks-page .submit-button").val("Submit Task");
     $("#tasks-page .submit-div .ui-btn-text").html("Submit Task");
     $("#tasks-page .delete-button").hide();
+    $("#tasks-page .priority").val("");
+    $("#tasks-page .select-priority .ui-btn-text").html($("#tasks-page .priority option:first").text());
 
     document.location.href = "/geocamCover/#tasks-page";
 }
@@ -461,8 +462,8 @@ function showNewReport() {
     $("#reports-page .submit-div .ui-btn-text").html("Submit Report");
     $("#reports-page .delete-button").hide();
     populateTasksForReport(null);
-    $("#reports-page .status").val("");
-    $("#reports-page .select-status .ui-btn-text").html("Not Selected");
+    $("#reports-page .status").val(4);
+    $("#reports-page .select-status .ui-btn-text").html($("#reports-page .status:nth-child(5)").text());
 
     document.location.href = "/geocamCover/#reports-page";
 
@@ -478,10 +479,10 @@ function showEditTask(task_id) {
 
     //Setting form elements
     $("#tasks-page .title").val(task.title);
-    if (task.priority > 0)
-        $('input').rating('select', task.priority - 1)
-    else
-        $('input').rating('drain');
+		
+    $("#tasks-page .priority").val(task.priority);
+	$("#tasks-page .select-priority .ui-btn-text").html($("#tasks-page .priority option:selected").text());
+   
     $("#tasks-page .description").val(task.description);
     $("#tasks-page .submit-div .ui-btn-text").html("Update Task");
     $("#tasks-page .submit-button").val("Update Task");
@@ -509,7 +510,6 @@ function showEditReport(report_id) {
     $("#reports-page .submit-div .ui-btn-text").html("Update Report");
     populateTasksForReport(report.task_id);
     $("#reports-page .delete-button").show();
-
 
     document.location.href = "/geocamCover/#reports-page";
 }

@@ -76,12 +76,13 @@
 				<b class="label">Title:</b><br/>
 				<input type='text' class='title' /><br/>
 			</div>
-			<div style="padding-bottom: 10px;overflow:hidden;width:100%;">
-				<b class="label" style="float:left;margin-top:3px;margin-right:5px;">Priority: </b>
-				<input value="1" name="star1" type="radio" class="star"/>
-				<input value="2" name="star1" type="radio" class="star"/>
-				<input value="3" name="star1" type="radio" class="star"/>
-			</div>
+			 <div class="select-priority">
+                    <select class="priority">
+                        <option selected value="2">Priority: Low</option>
+                        <option value="1">Priority: Medium</option>
+                        <option value="0">Priority: High</option>
+                    </select>
+                </div>
 			<div>
 				<b class="label">Description:</b><br/>
 				<textarea class="description"></textarea>
@@ -108,18 +109,15 @@
                 <input type='text' class='title'/>
             </div>
             <div>
-                <b class="label">Status:</b><br/>
-
                 <div class="select-status">
                     <select class="status">
-                        <option selected value>Not Selected</option>
-                        <option value="0">Disabled by damage, lack of power, etc -- not servicable</option>
-                        <option value="1">Damaged or otherwise impaired but servicable</option>
-                        <option value="2">Inactive, out of service (not damaged by event)</option>
-                        <option value="3">In service with no impairment</option>
-                        <option value="4">Red-tagged: inoperable and unsafe to enter</option>
-                        <option value="5">Unknown, requires assessment</option>
-                        <option value="6">Potentially unsafe to enter</option>
+                        <option value="0">Status: Red-tagged: inoperable and unsafe to enter</option>
+                        <option value="1">Status: Disabled by damage, lack of power, etc -- not servicable</option>
+                        <option value="2">Status: Damaged or otherwise impaired but servicable</option>
+                        <option value="3">Status: Potentially unsafe to enter</option>
+                        <option value="4">Status: Unknown, requires assessment</option>
+                        <option value="5">Status: Inactive, out of service (not damaged by event)</option>
+                        <option value="6">Status: In service with no impairment</option>
                     </select>
                 </div>
             </div>

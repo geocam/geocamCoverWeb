@@ -107,13 +107,6 @@ def report(request):
         struct = json.loads(request.raw_post_data)
         place = Place.objects.get(id=struct['place_id'])
 
-        print "Title"
-        print struct['title']
-        print "Status"
-        print struct['status']
-        print "%%%"
-        print struct['percent_completed']
-
         report = Report()
         if struct['report_id'] != None:
             report = Report.objects.get(id=struct['report_id'])
