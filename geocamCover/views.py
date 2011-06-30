@@ -90,7 +90,6 @@ def task(request):
         if struct['task_id'] != None:
             task = Task.objects.get(id=struct['task_id'])
         task.place=place
-        task.title=struct['title']
         task.priority=struct['priority']
         task.description=struct['description']
         task.created_by=user

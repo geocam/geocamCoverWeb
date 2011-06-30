@@ -48,7 +48,6 @@ class Place(models.Model):
 
 class Task(models.Model):
     place = models.ForeignKey(Place)
-    title = models.CharField(max_length=200, blank=True)
     description = models.CharField(max_length=1000, blank=True)
     priority = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -59,7 +58,7 @@ class Task(models.Model):
         return self.name
 
     def get_struct(self):
-        return {"id": self.id, "place_id": self.place_id, "title": self.title, "description": self.description,
+        return {"id": self.id, "place_id": self.place_id, "description": self.description,
                 "priority": self.priority, "modified_at": self.modified_at.strftime("%m/%d/%Y %H:%M:%S")}
 
 

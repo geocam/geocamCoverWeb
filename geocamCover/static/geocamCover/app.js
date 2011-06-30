@@ -40,6 +40,7 @@ var reportId;
 var taskId;
 var selectedView;
 var myMarker;
+var gpsDenied = false;
 
 var views = ["Task View", "Report View"];
 
@@ -51,12 +52,14 @@ $(window).resize(function() {
 });
 
 $(document).ready(function () {
-	initiate_geolocation(); 
+	initiateGeolocation(); 
+	setInterval("refreshGps()", 5000);
 	selectedView = requestView;
 	populateCategories();
 
-    //MOFFETT FIELD COORDINATES
+    //INITIAL COORDINATES - MOFFETT FIELD
     var latlng = new google.maps.LatLng(37.41288, -122.052934);
+	
     $('#map_canvas').gmap({
         'center': latlng,
         'mapTypeId': google.maps.MapTypeId.ROADMAP,
@@ -77,7 +80,6 @@ $(document).ready(function () {
                         task.id = t.id;
                         task.place = place;
                         task.priority = t.priority;
-                        task.title = t.title;
                         task.description = t.description;
                         task.modified_at = new Date(t.modified_at);
                         task.modified_at_str = t.modified_at;
@@ -159,13 +161,12 @@ $(document).ready(function () {
 
         task = new Task();
         task.id = taskId;
-        task.title = $('#tasks-page .title').val();
         task.description = $('#tasks-page .description').val();
         task.priority = $('#tasks-page .priority').val();
         task.place_id = selectedPlace.id;
 
 
-        var new_task = JSON.stringify({"task_id":task.id,"place_id": task.place_id, "title": task.title,
+        var new_task = JSON.stringify({"task_id":task.id,"place_id": task.place_id,
             "description": task.description, "priority": task.priority });
         $.post('/geocamCover/task/', new_task, function(data) {
 
@@ -364,6 +365,7 @@ function addMarker(place) {
     places[place.id].marker = place_marker;
 }
 
+
 function showLog(place_id, blah) {
     place = places[place_id];
 
@@ -394,7 +396,7 @@ function showLog(place_id, blah) {
 
         if (logList[log_id] instanceof Task) {
             task = logList[log_id];
-            $('#logs').append("<li><a href='#' onclick='showEditTask(" + task.id + ");'> Task: " + task.title + " (" + task.modified_at_str + ")</a></li>");
+            $('#logs').append("<li><a href='#' onclick='showEditTask(" + task.id + ");'> Task: " + task.description + " (" + task.modified_at_str + ")</a></li>");
         }
         else {
             report = logList[log_id];
@@ -436,7 +438,6 @@ function showNewTask() {
     $("#tasks-page h1").html("Add Tasks to " + (selectedPlace.name.length == 0 ? "Unnamed Place" : selectedPlace.name));
 
     //Initializing the form elements
-    $("#tasks-page .title").val("");
     $("#tasks-page .description").val("");
     $("#tasks-page .submit-button").val("Submit Task");
     $("#tasks-page .submit-div .ui-btn-text").html("Submit Task");
@@ -463,7 +464,7 @@ function showNewReport() {
     $("#reports-page .delete-button").hide();
     populateTasksForReport(null);
     $("#reports-page .status").val(4);
-    $("#reports-page .select-status .ui-btn-text").html($("#reports-page .status:nth-child(5)").text());
+    $("#reports-page .select-status .ui-btn-text").html($("#reports-page .status option:nth-child(5)").text());
 
     document.location.href = "/geocamCover/#reports-page";
 
@@ -475,10 +476,9 @@ function showEditTask(task_id) {
     taskId = task.id;
 
     $('#tasks-page a, #tasks-page li').removeClass("ui-btn-active");
-    $("#tasks-page h1").html("Edit " + task.title);
+    $("#tasks-page h1").html("Edit " + task.description);
 
     //Setting form elements
-    $("#tasks-page .title").val(task.title);
 		
     $("#tasks-page .priority").val(task.priority);
 	$("#tasks-page .select-priority .ui-btn-text").html($("#tasks-page .priority option:selected").text());
@@ -570,12 +570,14 @@ function hidePlaceForm() {
     $('#place-form').hide();
 }
 
-function initiate_geolocation() {  
-	navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors);  
+function initiateGeolocation() {  
+	navigator.geolocation.getCurrentPosition(handleGeolocationQuery, handleErrors);  
 }  
 
-function handle_errors(error)  
+function handleErrors(error)  
 {  
+	gpsDenied = true;
+
 	switch(error.code)  
 	{  
 		case error.PERMISSION_DENIED: alert("user did not share geolocation data");  
@@ -592,14 +594,35 @@ function handle_errors(error)
 	}  
 }  
 
-function handle_geolocation_query(position){ 
-    var latlng = new google.maps.LatLng(position.coords.latitude, 
-										position.coords.longitude)
+function handleGeolocationQuery(position){
+	var firstCall = true;
+ 
+	if (myMarker){
+		firstCall = false;
+		myMarker.setVisible(false);
+	}
+		
+    var myLocation = new google.maps.LatLng(position.coords.latitude, 
+										position.coords.longitude);
     $("#map_canvas").gmap('addMarker', {
-                'position': latlng,
-                'title': "You are here"
-				//'icon': "/static/geocamCover/" + placeIcon(place) + ".png"
+                'position': myLocation,
+                'title': "You are here",
+				'icon': "/static/geocamCover/youAreHere.png"
             }, function(map, marker) {
                 myMarker = marker;
      });  
+	 
+	if (firstCall){
+		$('#map_canvas').gmap({
+			'center': myLocation
+		});
+	}
 }  
+
+
+function refreshGps(){
+	if (gpsDenied)
+		return;
+	initiateGeolocation();
+}
+
