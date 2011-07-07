@@ -5,6 +5,7 @@ function LogItem() {
     this.title = "";
 }
 
+
 function Task() {
     this.description = "";
     this.priority = 0;
@@ -41,6 +42,7 @@ var taskId;
 var selectedView;
 var myMarker;
 var gpsDenied = false;
+var markerCluster;
 
 var views = ["Task View", "Report View"];
 
@@ -53,7 +55,7 @@ $(window).resize(function() {
 
 $(document).ready(function () {
 	initiateGeolocation(); 
-	setInterval("refreshGps()", 5000);
+	//setInterval("refreshGps()", 5000);
 	selectedView = requestView;
 	populateCategories();
 
@@ -66,6 +68,7 @@ $(document).ready(function () {
         'zoom': 12,
         'callback': function () {
             $.getJSON('/geocamCover/places.json', function(data) {
+				markerCluster = new MarkerClusterer($('#map_canvas').gmap('getMap'), $('#map_canvas').gmap('getMarkers'));
                 $.each(data.places, function(key, val) {
                     var place = new Place();
                     latlng = new google.maps.LatLng(val.place.latitude, val.place.longitude);
@@ -107,7 +110,7 @@ $(document).ready(function () {
                     places[place.id] = place;
                     addMarker(place);
                 });
-            });
+			});
         }
     });
 	
@@ -116,21 +119,19 @@ $(document).ready(function () {
     pageResize();
 
     //ADDING MARKERS WHEN THE USER CLICKS ON THE MAP
-    $('#map_canvas').gmap({'callback':function(map) {
-        $(map).click(function(event) {
-            $('#place-form').show();
-            $('#categories-select').parent().find('.ui-btn-text').html("Select Category");
-            $('#dim').show();
-            clicked_position = event.latLng;
-        });
-
-    }});
-
+    $('#map_canvas').bind('taphold', function(event) {
+		$('#place-form').show();
+		$('#categories-select').parent().find('.ui-btn-text').html("Select Category");
+		$('#dim').show();
+		clicked_position = event.latLng;
+    });
+	
 
     $("#place-form-form, #edit-place-page-form").submit(function(e) {
         var place;
         if (e.target.id == "edit-place-page-form") {
             place = selectedPlace;
+			markerCluster.removeMarker(place.marker);
             place.category = $('#edit-categories-select').val();
         } else if (e.target.id == "place-form-form") {
             place = new Place();
@@ -177,6 +178,7 @@ $(document).ready(function () {
             task.modified_at_str = temp_array[1];
             places[task.place_id].tasks[task.id] = task;
 			places[task.place_id].marker.setVisible(false);
+			markerCluster.removeMarker(places[task.place_id].marker);
 			addMarker(places[task.place_id]);
             showLog(task.place_id);
 
@@ -213,6 +215,7 @@ $(document).ready(function () {
             report.modified_at_str = temp_array[1];
             places[report.place_id].reports[report.id] = report;
 			places[report.place_id].marker.setVisible(false);
+			markerCluster.removeMarker(places[report.place_id].marker);
 			addMarker(places[report.place_id]);
             showLog(report.place_id);
         });
@@ -250,7 +253,7 @@ function deletePlace() {
 	data: delete_request, 
 	type: "DELETE",
 	success: function(data) {
-		selectedPlace.marker.setVisible(false);
+		markerCluster.removeMarker(selectedPlace.marker);
 		delete places[selectedPlace.id];
 		showMap();
 	}
@@ -350,8 +353,6 @@ function placeIcon(place){
 
 
 function addMarker(place) {
-
-    var place_marker;
     $("#map_canvas").gmap('addMarker', {
                 'position': place.position,
                 'title': place.name,
@@ -363,6 +364,7 @@ function addMarker(place) {
         showLog(place.id);
     });
     places[place.id].marker = place_marker;
+	markerCluster.addMarker(place_marker);
 }
 
 
@@ -548,6 +550,7 @@ function switchViews(){
 	
 	for (var p_id in places){
 		places[p_id].marker.setVisible(false);
+		markerCluster.removeMarker(places[p_id].marker);
 		addMarker(places[p_id]);
 	}
 	jQuery(".ui-btn-active").removeClass("ui-btn-active");
@@ -598,7 +601,8 @@ function handleGeolocationQuery(position){
 	var firstCall = true;
  
 	if (myMarker){
-		firstCall = false;
+		if (markerCluster)
+			markerCluster.removeMarker(myMarker);
 		myMarker.setVisible(false);
 	}
 		
@@ -611,8 +615,11 @@ function handleGeolocationQuery(position){
             }, function(map, marker) {
                 myMarker = marker;
      });  
+	if (markerCluster)
+		markerCluster.addMarker(myMarker);
 	 
 	if (firstCall){
+		firstCall = false;
 		$('#map_canvas').gmap({
 			'center': myLocation
 		});
