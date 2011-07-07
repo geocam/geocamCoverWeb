@@ -43,6 +43,8 @@ var selectedView;
 var myMarker;
 var gpsDenied = false;
 var markerCluster;
+var globalMap;
+var zoom = true;
 
 var views = ["Task View", "Report View"];
 
@@ -52,6 +54,10 @@ reportView 		= 1;
 $(window).resize(function() {
     pageResize();
 });
+
+function endZoom(){
+	zoom = false;
+}
 
 $(document).ready(function () {
 	initiateGeolocation(); 
@@ -66,10 +72,16 @@ $(document).ready(function () {
         'center': latlng,
         'mapTypeId': google.maps.MapTypeId.ROADMAP,
         'zoom': 12,
-        'callback': function () {
+        'callback': function (map) {
+			globalMap = map;
             $.getJSON('/geocamCover/places.json', function(data) {
 				markerCluster = new MarkerClusterer($('#map_canvas').gmap('getMap'), $('#map_canvas').gmap('getMarkers'));
-                $.each(data.places, function(key, val) {
+                
+				google.maps.event.addListener(markerCluster, "clusterclick", function (cluster) {
+					//TBD
+				});
+	
+				$.each(data.places, function(key, val) {
                     var place = new Place();
                     latlng = new google.maps.LatLng(val.place.latitude, val.place.longitude);
                     place.id = val.place.id;
@@ -120,11 +132,27 @@ $(document).ready(function () {
 
     //ADDING MARKERS WHEN THE USER CLICKS ON THE MAP
     $('#map_canvas').bind('taphold', function(event) {
+		if (zoom)
+			return;
 		$('#place-form').show();
 		$('#categories-select').parent().find('.ui-btn-text').html("Select Category");
 		$('#dim').show();
 		clicked_position = event.latLng;
     });
+	
+	google.maps.event.addListener(globalMap, 'zoom_changed', function() {
+		zoom = true;
+		setTimeout(endZoom(), 1000);
+	});
+	
+	google.maps.event.addListener(globalMap, 'drag', function() {
+		zoom = true;
+	});
+	
+	google.maps.event.addListener(globalMap, 'dragend', function() {
+		zoom = false;
+	});
+	
 	
 
     $("#place-form-form, #edit-place-page-form").submit(function(e) {
