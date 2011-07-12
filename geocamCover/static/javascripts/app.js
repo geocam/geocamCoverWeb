@@ -53,6 +53,7 @@ $(window).resize(function() {
 
 function endZoom() {
 	zoom = false;
+	isTapHold = false;
 }
 
 $(document).ready(function () {
@@ -125,7 +126,6 @@ $(document).ready(function () {
 			if(isTapHold){
 				isTapHold = false;
 				clickedPosition = event.latLng;
-				alert(clickedPosition);
 				showForm('place');
 			}
 		});
@@ -137,6 +137,7 @@ $(document).ready(function () {
 	
 	google.maps.event.addListener(globalMap, 'zoom_changed', function() {
 		zoom = true;
+		isTapHold = false;
 		setTimeout("endZoom()", 1000);
 	});
 	
@@ -217,6 +218,7 @@ function addPlace(place) {
 	    places[place.id] = place;
 	    addMarker(place);
 	    showLog(place.id);
+		 pageResize();
 	});
 }
 
@@ -384,8 +386,7 @@ function showLog(place_id) {
     selectedPlace = place;
     var noTasksAndReports = true;
     var logList = new Array();
-    $('#logs-page h1').html(place.name.length == 0 ? 'Unnamed Place' : place.name);
-    $('#logs-page a, #logs-page li').removeClass("ui-btn-active");
+    $('#place-name-h1').html(place.name.length == 0 ? 'Unnamed Place' : place.name);
     $('#logs').empty();
 
     for (var t in place.tasks)
@@ -401,10 +402,10 @@ function showLog(place_id) {
     for (var log_id in logList) {
         if (logList[log_id] instanceof Task) {
             task = logList[log_id];
-            $('#logs').append("<li><a href='#' onclick='showEditTask(" + task.id + ");'> Task: " + task.description + " (" + task.modified_at_str + ")</a></li>");
+            $('#logs').append("<li onclick='showEditTask(" + task.id + ");'> Task: " + task.description + " (" + task.modified_at_str + ")</li>");
         } else {
             report = logList[log_id];
-            $('#logs').append("<li><a href='#' onclick='showEditReport(" + report.id + ");'> Report: " + report.title + " (" + report.modified_at_str + ")</a></li>");
+            $('#logs').append("<li onclick='showEditReport(" + report.id + ");'> Report: " + report.title + " (" + report.modified_at_str + ")</li>");
         }
         noTasksAndReports = false;
     }
@@ -415,24 +416,25 @@ function showLog(place_id) {
     try {
         $('#logs').listview("refresh");
     } catch(e) {}
+	showPage("#logs-page");
+}
 
-    document.location.href = "/geocamCover/#logs-page";
+function showPage(page){
+	$(".mobile-page").hide();
+	$(page).show();
 }
 
 function showEditPlace() {
-    $('#edit-place-page a').removeClass("ui-btn-active");
     $("#edit-place-page h1 .name").html(selectedPlace.name.length == 0 ? "Unnamed Place" : selectedPlace.name);
     $("#edit-place-name").val(selectedPlace.name);
     $("#edit-place-categories-select").val(selectedPlace.category);
-    $("#edit-place-categories-select").parent().find(".ui-btn-text").html($("#edit-place-categories-select option:selected").text());
-    document.location.href = "/geocamCover/#edit-place-page";
+	showPage("#edit-place-page");
 }
 
 function showNewTask() {
     taskId = null;
     $("#tasks-page .description").val("");
-    $("#tasks-page .priority").val("");
-    $("#tasks-page .select-priority .ui-btn-text").html($("#tasks-page .priority option:first").text());
+    $("#tasks-page .priority").val(3);
 	showNewLogItem('task');
 }
 
@@ -443,25 +445,21 @@ function showNewReport() {
     $("#reports-page .notes").val("");
     populateTasksForReport(null);
     $("#reports-page .status").val(4);
-    $("#reports-page .select-status .ui-btn-text").html($("#reports-page .status option:nth-child(5)").text());
-	showNewLogItem('report');
+    showNewLogItem('report');
 }
 
 function showNewLogItem(which) {
-    $('#' + which + 's-page a, #' + which + 's-page li').removeClass("ui-btn-active");
-    $('#' + which + 's-page h1').html('New ' + which + ' for ' + (selectedPlace.name.length == 0 ? "Unnamed Place" : selectedPlace.name));
+    $('#' + which + '-name-h1').html('New ' + which + ' for ' + (selectedPlace.name.length == 0 ? "Unnamed Place" : selectedPlace.name));
     $('#' + which + 's-page .submit-button').val("Submit " + which);
-    $('#' + which + 's-page .submit-div .ui-btn-text').html("Submit " + which);
     $('#' + which + 's-page .delete-button').hide();
-    document.location.href = "/geocamCover/#" + which + "s-page";
+	showPage("#" + which + "s-page");
 }
 
 function showEditTask(task_id) {
     var task = selectedPlace.tasks[task_id];
     taskId = task.id;
     $("#tasks-page .priority").val(task.priority);
-	$("#tasks-page .select-priority .ui-btn-text").html($("#tasks-page .priority option:selected").text());
-    $("#tasks-page .description").val(task.description);
+	 $("#tasks-page .description").val(task.description);
 	showEditLogItem('task');
 }
 
@@ -470,7 +468,6 @@ function showEditReport(report_id) {
     reportId = report.id;
     $("#reports-page .title").val(report.title);
     $("#reports-page .status").val(report.status);
-    $("#reports-page .select-status .ui-btn-text").html($("#reports-page .status option:selected").text());
     $("#reports-page .percent-completed").val(report.percentCompleted);
     $("#reports-page .notes").val(report.notes);
     populateTasksForReport(report.task_id);
@@ -478,12 +475,10 @@ function showEditReport(report_id) {
 }
 
 function showEditLogItem(which) {
-    $('#' + which + 's-page a, #' + which + 's-page li').removeClass("ui-btn-active");
-    $('#' + which + 's-page h1').html("Edit " + which);
-    $('#' + which + 's-page .submit-div .ui-btn-text').html('Update ' + which);
+    $('#' + which + '-name-h1').html("Edit " + which);
     $('#' + which + 's-page .submit-button').val('Update ' + which);
     $('#' + which + 's-page .delete-button').show();
-    document.location.href = '/geocamCover/#' + which + 's-page';
+	showPage('#' + which + 's-page');
 }
 
 function showForm(which) {
@@ -515,7 +510,6 @@ function populateTasksForReport(selectedId) {
         }
         $("#reports-page .task").append('<option value="' + task_id + '"' + selected + '>' + selectedPlace.tasks[task_id].description + '</option>');
     }
-    $("#reports-page .select-task .ui-btn-text").html(spanText);
 }
 
 
@@ -537,7 +531,7 @@ function switchViews() {
 }
 
 function showMap() {
-    document.location.href = "/geocamCover/#map-page";
+	showPage("#map-page");
     pageResize();
 }
 
