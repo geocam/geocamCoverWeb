@@ -45,6 +45,7 @@ var zoom = false;
 var views = ["Task View", "Report View"];
 var requestView = 0;
 var reportView = 1;
+var isTapHold = false;
 
 $(window).resize(function() {
     pageResize();
@@ -121,10 +122,18 @@ $(document).ready(function () {
 
 	$('#map_canvas').gmap({'callback':function(map) {
 		$(map).click(function(event) {
-        	clickedPosition = event.latLng;
-			showForm('place');
+			if(isTapHold){
+				isTapHold = false;
+				clickedPosition = event.latLng;
+				alert(clickedPosition);
+				showForm('place');
+			}
 		});
  	}});
+	
+	$('#map_canvas').taphold(function(){
+		isTapHold = true;
+	});
 	
 	google.maps.event.addListener(globalMap, 'zoom_changed', function() {
 		zoom = true;
@@ -133,6 +142,7 @@ $(document).ready(function () {
 	
 	google.maps.event.addListener(globalMap, 'drag', function() {
 		zoom = true;
+		isTapHold = false;
 	});
 	
 	google.maps.event.addListener(globalMap, 'dragend', function() {
@@ -369,7 +379,7 @@ function addMarker(place) {
 	markerCluster.addMarker(place_marker);
 }
 
-function showLog(place_id, blah) {
+function showLog(place_id) {
     place = places[place_id];
     selectedPlace = place;
     var noTasksAndReports = true;
