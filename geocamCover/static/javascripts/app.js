@@ -176,7 +176,7 @@ $(document).ready(function () {
 });
 
 function createPlaceFromAddress() {
-	$('#map_canvas').gmap('search', { 'address': $('#address-form-address').val() }, function(isFound,results) {
+	$('#map_canvas').gmap('search', { 'address': $('#address-name').val() }, function(isFound,results) {
 	    if (isFound) {
 	    	$('#map_canvas').gmap('getMap').panTo(results[0].geometry.location);
 			var place = new Place();
