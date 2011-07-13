@@ -31,6 +31,7 @@ function Report() {
 }
 Report.prototype = new LogItem();
 
+/* Global Variables */
 var places = [];
 var clickedPosition;
 var selectedPlace;
@@ -48,6 +49,7 @@ var reportView = 1;
 var isTapHold = false;
 var isiPad = false;
 var tapHoldTimeout;
+var backIsMap = false;
 
 $(window).resize(function() {
     pageResize();
@@ -123,6 +125,11 @@ $(document).ready(function () {
             });
         }
     });
+
+		// This is to go back to the map when the back button is pressed.
+		window.onpopstate = function(event) {
+			showMap();
+		}
 
     pageResize();
 
@@ -433,8 +440,25 @@ function showLog(place_id) {
 }
 
 function showPage(page) {
-    $(".mobile-page").hide();
-    $(page).show();
+	// Add GeoCam to History IF not already in history.
+	if (!backIsMap && page != "#map-page") {
+		backIsMap = true;
+		history.pushState(null, "Map", "http://localhost:8000");
+	} 
+  $(".mobile-page").hide();
+  $(page).show();
+}
+
+function showMap() {
+	  // Remove GeoCam from History
+		if (backIsMap) {
+			backIsMap = false;
+			// HACKY AS HELL. LOLOLOLOLOLOLOLOL.
+			history.go(-1);
+		}
+		// Push history.
+    showPage("#map-page");
+    pageResize();
 }
 
 function showEditPlace() {
@@ -530,11 +554,6 @@ function switchViews() {
     return false;
 }
 
-function showMap() {
-    showPage("#map-page");
-    pageResize();
-}
-
 function pageResize() {
     var page_height = $(window).height() - $("#map-header").height() - $("#footer").height() - 4;
     if (isiPad)
@@ -597,6 +616,14 @@ function handleGeolocationQuery(position) {
             'center': myLocation
         });
     }
+}
+
+function loadFusionData(id) {
+	if (!id) {
+		id = 1003379;
+	}
+	$('#map_canvas').gmap('loadFusion', id);
+	showMap();
 }
 
 function refreshGps() {

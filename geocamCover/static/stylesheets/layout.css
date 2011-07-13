@@ -216,6 +216,20 @@ input[type="text"] {
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #EEE), color-stop(1, #DDD));
 }
 
+.submit-button {
+	background: #a8d2ff;
+	border: 1px solid #499efe;
+  background-image: -moz-linear-gradient(top, #b6e4ff, #70bdff);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #b6e4ff), color-stop(1, #70bdff));
+}
+
+.submit-button:active {
+	background: #a8d2ff;
+	border: 1px solid #3776BE;
+  background-image: -moz-linear-gradient(top, #70bdff, #b6e4ff,);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #70bdff), color-stop(1, #b6e4ff));
+}
+
 select {
     margin: 8px auto;
     margin-top: 10px;
