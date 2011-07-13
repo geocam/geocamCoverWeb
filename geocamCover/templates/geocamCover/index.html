@@ -64,7 +64,7 @@
     <div class='header ui-bar-a ui-header'>
         <input class='button ui-btn-left' type='submit' onclick="return showMap();" value='Back'/>
 
-        <h1 class='ui-title'>Place</h1>
+        <h1 class='ui-title'>Logs</h1>
         <input class='button ui-btn-right' type='submit' onclick="return showEditPlace();" value='Edit'/>
     </div>
 
@@ -109,6 +109,7 @@
             <div class='submit-div'>
                 <input class='submit-button big-button' type="submit" value="Submit Task" class="submit-button"/>
             </div>
+			<input class='big-button' type="button" value="Back to Logs" onclick="return showLog(selectedPlace.id);"/>
             <input class='big-button' type="submit" value="Back to Map" onclick="return showMap();"/>
         </form>
     </div>
@@ -163,6 +164,7 @@
             <div class='submit-div'>
                 <input class='submit-button big-button' type="submit" value="Submit Report" class="submit-button"/>
             </div>
+			<input class='big-button' type="button" value="Back to Logs" onclick="return showLog(selectedPlace.id);"/>
             <input class='big-button' type="submit" value="Back to Map" onclick="return showMap();"/>
         </form>
     </div>

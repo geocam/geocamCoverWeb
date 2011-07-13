@@ -29,8 +29,10 @@ html, body {
     position: relative;
     /*bottom: 0px;*/
     width: 100%;
+	/*
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #EEE), color-stop(1, #DDD));
-    text-align: center;
+    */
+	text-align: center;
     padding-bottom: 15px;
 }
 
@@ -220,7 +222,6 @@ select {
     margin-bottom: 10px;
     width: 95%;
     font-size: larger;
-    padding: .6em 25px;
     display: block;
     height: 35px;
     text-overflow: ellipsis;

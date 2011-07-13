@@ -47,6 +47,7 @@ var requestView = 0;
 var reportView = 1;
 var isTapHold = false;
 var isiPad = false;
+var tapHoldTimeout;
 
 $(window).resize(function() {
     pageResize();
@@ -135,8 +136,15 @@ $(document).ready(function () {
         });
     }});
 
-	$('#map_canvas').click(function(){
-		isTapHold = true;
+	$('#map_canvas').mousedown(function(){
+		var f = function(){
+			isTapHold = true;
+		};
+		tapHoldTimeout = setTimeout(f, 500);
+	});
+	
+	$('#map_canvas').mouseup(function(){
+		clearTimeout(tapHoldTimeout);
 	});
 
     google.maps.event.addListener(globalMap, 'zoom_changed', function() {
