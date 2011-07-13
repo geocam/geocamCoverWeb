@@ -130,14 +130,14 @@ $(document).ready(function () {
             if (isTapHold) {
                 isTapHold = false;
                 clickedPosition = event.latLng;
-                showForm('place');
+                showPage('#place-form')
             }
         });
     }});
 
-//	$('#map_canvas').taphold(function(){
-//		isTapHold = true;
-//	});
+	$('#map_canvas').click(function(){
+		isTapHold = true;
+	});
 
     google.maps.event.addListener(globalMap, 'zoom_changed', function() {
         zoom = true;
@@ -211,7 +211,7 @@ function savePlace(place, which) {
     $('#' + which + '-name').val("");
     $('#' + which + '-categories-select').val("0");
     $('#' + which + '-categories-select').parent().find('.ui-btn-text').html("Select Category");
-    hideForm(which);
+
 }
 
 function addPlace(place) {
@@ -486,20 +486,6 @@ function showEditLogItem(which) {
     showPage('#' + which + 's-page');
 }
 
-function showForm(which) {
-    $('#footer').hide();
-    $('#' + which + '-form').show();
-    $('#' + which + '-categories-select').parent().find('.ui-btn-text').html("Select Category");
-    $('#dim').show();
-}
-
-function hideForm(which) {
-    $('#dim').hide();
-    $('#' + which + '-form').hide();
-    $('#footer').show();
-    pageResize();
-}
-
 function populateTasksForReport(selectedId) {
     $("#reports-page .task").empty();
     var selected = selectedId == null ? " selected" : "";
@@ -551,7 +537,7 @@ function pageResize() {
     }
 
 
-    $('#map_canvas, #place-form, #address-form, #dim').height(page_height);
+    $('#map_canvas, #dim').height(page_height);
 }
 
 function initiateGeolocation() {
