@@ -125,7 +125,6 @@ $(document).ready(function () {
 			if(isTapHold){
 				isTapHold = false;
 				clickedPosition = event.latLng;
-				alert(clickedPosition);
 				showForm('place');
 			}
 		});
