@@ -65,8 +65,6 @@ $(document).ready(function () {
     isiPad = navigator.userAgent.match(/iPad/i) != null;
 
     jQuery("title").html("GeoCam Cover");
-    initiateGeolocation();
-    //setInterval("refreshGps()", 5000);
     selectedView = requestView;
     populateCategories();
 
@@ -123,6 +121,8 @@ $(document).ready(function () {
                     addMarker(place);
                 });
             });
+			setTimeout("initiateGeolocation()", 1000);
+			setInterval("refreshGps()", 5000);
         }
     });
 
@@ -133,28 +133,21 @@ $(document).ready(function () {
 
     pageResize();
 
-	$('#map_canvas').gmap({'callback':function(map) {
-		$(map).click(function(event) {
-			if(isTapHold){
-				isTapHold = false;
-				clickedPosition = event.latLng;
-				showForm('place');
-			}
-		});
- 	}});
-	
-	$('#map_canvas').taphold(function(){
-		isTapHold = true;
-	});
-	
-	google.maps.event.addListener(globalMap, 'zoom_changed', function() {
-		zoom = true;
-		setTimeout("endZoom()", 1000);
-	});
-	
-	google.maps.event.addListener(globalMap, 'drag', function() {
-		zoom = true;
-		isTapHold = false;
+    $('#map_canvas').gmap({'callback':function(map) {
+        $(map).click(function(event) {
+            if (isTapHold) {
+                isTapHold = false;
+                clickedPosition = event.latLng;
+                showPage('#place-form')
+            }
+        });
+    }});
+
+	$('#map_canvas').mousedown(function(){
+		var f = function(){
+			isTapHold = true;
+		};
+		tapHoldTimeout = setTimeout(f, 500);
 	});
 	
 	$('#map_canvas').mouseup(function(){
@@ -597,32 +590,24 @@ function handleErrors(error) {
 }
 
 function handleGeolocationQuery(position) {
-    var firstCall = true;
-
-    if (myMarker) {
-        if (markerCluster)
-            markerCluster.removeMarker(myMarker);
-        myMarker.setVisible(false);
-    }
 
     var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    $("#map_canvas").gmap('addMarker', {
+  
+	if (myMarker) {
+		myMarker.setPosition(myLocation);
+    } else {
+	  $("#map_canvas").gmap('addMarker', {
                 'position': myLocation,
                 'title': "You are here",
-                'icon': "/static/images/youAreHere.png"
+                'icon': "/static/images/youAreHere.png",
+				'zIndex' : 1000
             }, function(map, marker) {
                 myMarker = marker;
-            });
-
-    if (markerCluster)
-        markerCluster.addMarker(myMarker);
-
-    if (firstCall) {
-        firstCall = false;
-        $('#map_canvas').gmap({
+		});
+		$('#map_canvas').gmap({
             'center': myLocation
         });
-    }
+	}
 }
 
 function loadFusionData(id) {
