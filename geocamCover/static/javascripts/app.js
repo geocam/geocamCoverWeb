@@ -128,6 +128,7 @@ $(document).ready(function () {
 
 		// This is to go back to the map when the back button is pressed.
 		window.onpopstate = function(event) {
+			backIsMap = false;
 			showMap();
 		}
 
