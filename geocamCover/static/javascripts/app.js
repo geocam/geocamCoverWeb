@@ -443,7 +443,7 @@ function showPage(page) {
 	// Add GeoCam to History IF not already in history.
 	if (!backIsMap && page != "#map-page") {
 		backIsMap = true;
-		history.pushState(null, "Map", "http://localhost:8000");
+		history.pushState(null, "Map", "http://trey0.org:8000");
 	} 
   $(".mobile-page").hide();
   $(page).show();
