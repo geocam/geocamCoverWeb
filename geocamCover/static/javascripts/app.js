@@ -32,6 +32,7 @@ function Report() {
 Report.prototype = new LogItem();
 
 /* Global Variables */
+var menuOpen = false;
 var places = [];
 var clickedPosition;
 var selectedPlace;
@@ -193,6 +194,10 @@ $(document).ready(function () {
         createReport();
         return false;
     });
+	
+	$(document).click(function(e){
+		closeMenu(e);
+	});
 });
 
 function createPlaceFromAddress() {
@@ -430,7 +435,7 @@ function showLog(place_id) {
     }
 
     if (noTasksAndReports)
-        $('#logs').append('<li>No tasks or reports for this place...</li>');
+        $('#logs').append('<li>No tasks or reports</li>');
 
     try {
         $('#logs').listview("refresh");
@@ -537,7 +542,7 @@ function populateTasksForReport(selectedId) {
 
 
 function switchViews() {
-    $("#switch-view-button").val(views[selectedView]);
+    $("#switch-view-button").html(views[selectedView]);
     switch (selectedView) {
         case (requestView):
             selectedView = reportView;
@@ -563,7 +568,7 @@ function pageResize() {
 
     }
 
-
+	$("#menu").css("right",  $(window).width()  - (22 + $("#menu-button").position().left + $("#menu-button").width())  );
     $('#map_canvas, #dim').height(page_height);
 }
 
@@ -622,4 +627,24 @@ function refreshGps() {
     if (gpsDenied)
         return;
     initiateGeolocation();
+}
+
+function showMenu(){
+	if (menuOpen)
+		return closeMenu();
+	menuOpen = true;
+	$("#menu-button").addClass("menu-button");
+	$(".open-menu").show();
+	$(".closed-menu").hide();
+	$("#menu").css("bottom", $(window).height() - $("#footer").position().top - 1);
+	$("#menu").css("right",  $(window).width()  - (22 + $("#menu-button").position().left + $("#menu-button").width())  );
+}
+
+function closeMenu(e){
+	if (!menuOpen || (e && e.target.id == "menu-button"))
+		return;
+	menuOpen = false;
+	$("#menu-button").removeClass("menu-button");
+	$(".open-menu").hide();
+	$(".closed-menu").show();
 }

@@ -93,7 +93,7 @@ html, body {
 
 .footer {
     position: relative;
-    height: 50px;
+	min-width: 310px;
 }
 
 .content {
@@ -256,4 +256,40 @@ select {
 input[type='range'] {
     width: 95%;
     height: 40px;
+}
+
+#footer > div{
+	float: left;
+}
+
+#menu > div, #footer > div{
+	border-right: 1px solid white;
+	padding: 10px 10px;
+	font-size: smaller;
+    font-family: Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+
+#footer > div:active{
+	color: #9cf;
+}
+
+
+.menu-button{
+	text-shadow: none;
+	color: #2A2A2A;
+	background: white;
+}
+
+#menu{
+	border: 1px solid #2A2A2A;
+	position: absolute;
+	background: white;
+	border-bottom: none;
+	z-index: 5;
+}
+
+.open-menu{
+	display: none;
 }

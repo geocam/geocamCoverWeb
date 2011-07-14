@@ -25,12 +25,19 @@
         <h1 class='ui-title' style="margin-left: 0px;margin-right: 0px;">GeoCam Cover</h1>
     </div>
     <div id="map_canvas"></div>
+	<div class="open-menu" id="menu">
+		<div>Hello World</div>
+		<div>Blah Blah Blah</div>
+	</div>
     <div id="footer" class="footer ui-bar-a ui-header">
-        <input type='button' onclick="return showPage('#address-form');" id="show-address-button" class='button ui-btn-left'
-               value="Add Address"/>
-        <input id="switch-view-button" class="button ui-btn-right" type='button' onclick="return switchViews();"
-               value='Report View'/>
-    </div>
+		<div onclick="return showPage('#address-form');" id="show-address-button">Search By Location</div>
+        <div onclick="return switchViews();" id="switch-view-button">Report View</div>
+		<div id="menu-button" onclick="showMenu();">
+			More
+			<img class="closed-menu" src="{{ MEDIA_URL }}images/moreArrow.png"/>
+			<img class="open-menu" src="{{ MEDIA_URL }}images/moreArrowBlack.png"/>
+		</div>
+	</div>
 </div>
 
 <div class="mobile-page" id="address-form">
