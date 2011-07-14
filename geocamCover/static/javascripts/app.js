@@ -441,21 +441,21 @@ function showLog(place_id) {
 
 function showPage(page) {
 	// Add GeoCam to History IF not already in history.
-	if (!backIsMap && page != "#map-page") {
-		backIsMap = true;
-		history.pushState(null, "Map", "http://localhost:8000");
-	} 
+	// if (!backIsMap && page != "#map-page") {
+	// 	backIsMap = true;
+	// 	history.pushState(null, "Map", "http://localhost:8000");
+	// } 
   $(".mobile-page").hide();
   $(page).show();
 }
 
 function showMap() {
 	  // Remove GeoCam from History
-		if (backIsMap) {
-			backIsMap = false;
-			// HACKY AS HELL. LOLOLOLOLOLOLOLOL.
-			history.go(-1);
-		}
+		// if (backIsMap) {
+		// 	backIsMap = false;
+		// 	// HACKY AS HELL. LOLOLOLOLOLOLOLOL.
+		// 	history.go(-1);
+		// }
 		// Push history.
     showPage("#map-page");
     pageResize();
