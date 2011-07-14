@@ -51,6 +51,7 @@ var isTapHold = false;
 var isiPad = false;
 var tapHoldTimeout;
 var backIsMap = false;
+var defaultZoom = 15;
 
 $(window).resize(function() {
     pageResize();
@@ -75,7 +76,7 @@ $(document).ready(function () {
     $('#map_canvas').gmap({
         'center': latlng,
         'mapTypeId': google.maps.MapTypeId.ROADMAP,
-        'zoom': 12,
+        'zoom': defaultZoom,
         'callback': function (map) {
             globalMap = map;
             $.getJSON('/geocamCover/places.json', function(data) {
@@ -129,6 +130,7 @@ $(document).ready(function () {
 
 		// This is to go back to the map when the back button is pressed.
 		window.onpopstate = function(event) {
+			backIsMap = false;
 			showMap();
 		}
 
@@ -171,7 +173,7 @@ $(document).ready(function () {
     });
 
     $("#address-form-form").submit(function(e) {
-        createPlaceFromAddress();
+        searchPlace();
         return false;
     });
 
@@ -200,15 +202,32 @@ $(document).ready(function () {
 	});
 });
 
-function createPlaceFromAddress() {
+function searchPlace() {
     $('#map_canvas').gmap('search', { 'address': $('#address-name').val() }, function(isFound, results) {
                 if (isFound) {
-                    $('#map_canvas').gmap('getMap').panTo(results[0].geometry.location);
-                    var place = new Place();
-                    place.position = results[0].geometry.location;
-                    savePlace(place, 'address');
+										
+										$('#address-name').val("");
+										$('#map_canvas').gmap('getMap').panTo(results[0].geometry.location);
+										$('#map_canvas').gmap('getMap').setZoom(defaultZoom);
+                    // var place = new Place();
+                    // place.position = results[0].geometry.location;
+                    // savePlace(place, 'address');
+										$("#map_canvas").gmap('addMarker', {
+								                'position': results[0].geometry.location,
+								                'title': $('#address-name').val()
+										}, function(map, marker) {
+								    		myMarker = marker;
+										});
+
+										$(myMarker).click(function() {
+												// WTF? Why is $(this) an array?
+								        clickedPosition = $(this)[0].position;
+								        showPage('#place-form');
+								    });
+										
+										showMap();
                 } else {
-                    alert("not found"); //Need another way to display to the user that the address wasn't found
+                    alert("Location Not Found."); //Need another way to display to the user that the address wasn't found
                 }
             });
 }
@@ -609,6 +628,12 @@ function handleGeolocationQuery(position) {
             }, function(map, marker) {
                 myMarker = marker;
 		});
+		
+		$(myMarker).click(function() {
+        clickedPosition = myLocation;
+        showPage('#place-form');
+    });
+
 		$('#map_canvas').gmap({
             'center': myLocation
         });
