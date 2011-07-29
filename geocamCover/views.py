@@ -16,14 +16,24 @@ from geocamCover.models import Place, Task, Report
 from datetime import datetime
 
 
+# Function: index()
+# Arguments: request - HTTP Request
+#
+# Description: Simply renders the index.html page.
+#
 def index(request):
     t = loader.get_template('geocamCover/index.html')
     c = RequestContext(request)
-    #    places = Place.objects.all()
 
     return HttpResponse(t.render(c))
 
 
+# Function: places_json()
+# Arguments: request - HTTP Request
+#
+# Description: Returns a JSON response containing all places in the
+#               database along with their associated tasks and repots.
+#
 def places_json(request):
     place_hash = {"places": []}
     for p in Place.objects.all():
@@ -42,6 +52,13 @@ def places_json(request):
     places = json.dumps(place_hash, sort_keys=True, indent=4)
     return HttpResponse(places, mimetype="application/json")
 
+
+# Function: categories_json()
+# Arguments: request - HTTP Request
+#
+# Description: Returns a JSON response that includes the categories
+#               that can be applied to a place.
+#
 def categories_json(request):
     categories_enum = Place.get_categories()
     categories_hash = {}
@@ -51,6 +68,12 @@ def categories_json(request):
     return HttpResponse(categories, mimetype="application/json")
 	
 
+# Function: place()
+# Arguments: request - HTTP Request
+#
+# Description: Creates a new place or updates an existing place
+#              if a valid place ID is included in the request.
+#
 def place(request):
     if request.method == 'POST':
         user = get_user(request)
@@ -69,6 +92,12 @@ def place(request):
         return HttpResponse("error")
 
 
+# Function: delete_item()
+# Arguments: request - HTTP Request
+#
+# Description: Takes an ID and an item type (place, task, or report).
+#              Deletes the item of the specified type and id.
+#
 def delete_item(request):
     if request.method == 'DELETE':
         struct = json.loads(request.raw_post_data)
@@ -81,6 +110,12 @@ def delete_item(request):
         return HttpResponse("error")
 
 
+# Function: task()
+# Arguments: request - HTTP Request
+#
+# Description: Creates a new task or updates an existing task
+#              if a valid task ID is included in the request.
+#
 def task(request):
     if request.method == 'POST':
         user = get_user(request)
@@ -100,6 +135,12 @@ def task(request):
         return HttpResponse("error")
 
 
+# Function: report()
+# Arguments: request - HTTP Request
+#
+# Description: Creates a new report or updates an existing report
+#              if a valid report ID is included in the request.
+#
 def report(request):
     if request.method == 'POST':
         user = get_user(request)
@@ -129,6 +170,11 @@ def report(request):
         return HttpResponse("error")
 
 
+# Function: get_user()
+# Arguments: request - HTTP Request
+#
+# Description: Helper function to get the current user object.
+#
 def get_user(request):
     user = None
     if request.user == None or not request.user.is_authenticated():

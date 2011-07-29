@@ -20,14 +20,18 @@
 
 <body onload="setTimeout(function() { window.scrollTo(0, 0) }, 100);">
 
+<!-- 
+ ID: map-page
+ This is the main page which displays the map. Includes the menu bar at the bottom.
+-->
 <div class='mobile-page' id="map-page">
     <div id="map-header" class='header ui-bar-a ui-header'>
         <h1 class='ui-title' style="margin-left: 0px;margin-right: 0px;">GeoCam Cover</h1>
     </div>
     <div id="map_canvas"></div>
 	<div class="open-menu" id="menu">
-		<div>Hello World</div>
-		<div>Blah Blah Blah</div>
+		<div>Item 1</div>
+		<div>Item 2</div>
 	</div>
     <div id="footer" class="footer ui-bar-a ui-header">
 		<div onclick="return showPage('#address-form');" id="show-address-button">Search By Location</div>
@@ -40,6 +44,10 @@
 	</div>
 </div>
 
+<!-- 
+ ID: address-form
+ The form for entering an address to search for.
+-->
 <div class="mobile-page" id="address-form">
     <div class='header ui-bar-a ui-header'>
         <h1 class='ui-title' style="margin-left: 0px;margin-right: 0px;">Add Place</h1>
@@ -53,6 +61,10 @@
     <input class="big-button" type="button" value="Load Fusion Table" onclick="loadFusionData();"/>
 </div>
 
+<!-- 
+ ID: place-form
+ Main form for adding a new place to the map.
+-->
 <div class="mobile-page" id="place-form">
     <div class='header ui-bar-a ui-header'>
         <h1 class='ui-title' style="margin-left: 0px;margin-right: 0px;">Add Place</h1>
@@ -66,7 +78,11 @@
     </form>
 </div>
 
-
+<!-- 
+ ID: logs-page
+ Page which displays information for a place as well as each of the tasks and
+ reports for that place.
+-->
 <div class='mobile-page' id="logs-page">
     <div class='header ui-bar-a ui-header'>
         <input class='button ui-btn-left' type='button' onclick="return showMap();" value="Back"/>
@@ -88,7 +104,10 @@
     </div>
 </div>
 
-
+<!-- 
+ ID: tasks-page
+ Form for creating/editing a task.
+-->
 <div class='mobile-page' id="tasks-page">
     <div class='header ui-bar-a ui-header'>
         <input class='button ui-btn-left' type='submit' onclick='return showPage("#logs-page");' data-icon="delete"
@@ -122,7 +141,10 @@
     </div>
 </div>
 
-
+<!-- 
+ ID: reports-page
+ Form for creating/editing a report
+-->
 <div class='mobile-page' id="reports-page">
     <div class='header ui-bar-a ui-header'>
         <input class='button ui-btn-left' type='submit' onclick='return showPage("#logs-page");' data-icon="delete"
@@ -186,7 +208,10 @@
     </div>
 </div>
 
-
+<!-- 
+ ID: edit-place-page
+ Form for editing an already existing place.
+-->
 <div class='mobile-page' id="edit-place-page">
     <div class='header ui-bar-a ui-header'>
         <input class='button ui-btn-left' type='submit' onclick='return showPage("#logs-page");' value="Cancel"/>
