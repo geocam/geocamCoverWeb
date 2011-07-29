@@ -1,3 +1,7 @@
+/* Place Class
+ * 
+ * Places consists of an array of reports and an array of tasks.
+ */
 function Place() {
     this.id = null;
     this.name = "";
@@ -8,6 +12,11 @@ function Place() {
     this.category = null;
 }
 
+/* Log Item Class
+ * 
+ * The Log Item class is a superclass of Tasks and Reports. They each
+ * share the members in this class.
+ */
 function LogItem() {
     this.modified_at = null;
     this.id = null;
@@ -15,6 +24,10 @@ function LogItem() {
     this.title = "";
 }
 
+/* Task Class
+ * 
+ * Inherits from the Log Item Class. 
+ */
 function Task() {
     this.description = "";
     this.priority = 0;
@@ -22,6 +35,10 @@ function Task() {
 }
 Task.prototype = new LogItem();
 
+/* Report Class
+ * 
+ * Inherits from the Log Item Class. Reports can belong to a task.
+ */
 function Report() {
     this.task = null;
     this.status = "";
@@ -53,18 +70,28 @@ var tapHoldTimeout;
 var backIsMap = false;
 var defaultZoom = 15;
 
+/* This function is called every time the page size changes */
 $(window).resize(function() {
     pageResize();
 });
 
+/* Function: endZoom()
+ * Arguments: N/A
+ *
+ * Description: This function is called via a setTimeout. When
+ * the map is being zoomed we don't want to display the create
+ * place form - so the zoom and tapHold booleans are set/unset
+ * to prevent this.
+ */ 
 function endZoom() {
     zoom = false;
     isTapHold = false;
 }
 
+/* This is called when the document has been rendered */
 $(document).ready(function () {
 
-    isiPad = navigator.userAgent.match(/iPad/i) != null;
+    isiPad = navigator.userAgent.match(/iPad/i) != null; // Is the user using an iPad?
 
     jQuery("title").html("GeoCam Cover");
     selectedView = requestView;
@@ -73,6 +100,10 @@ $(document).ready(function () {
     //INITIAL COORDINATES - MOFFETT FIELD
     var latlng = new google.maps.LatLng(37.41288, -122.052934);
 
+	/* This block loads a JSON file from the server and populates the map
+	 * with the places form the database. Each task and report is put into
+	 * its place's task and report array, respectively.
+	 */
     $('#map_canvas').gmap({
         'center': latlng,
         'mapTypeId': google.maps.MapTypeId.ROADMAP,
@@ -80,9 +111,14 @@ $(document).ready(function () {
         'callback': function (map) {
             globalMap = map;
             $.getJSON('/geocamCover/places.json', function(data) {
+			
+				// Initialize the marker cluster
                 markerCluster = new MarkerClusterer($('#map_canvas').gmap('getMap'), $('#map_canvas').gmap('getMarkers'));
 
+				// Loop through each place in the JSON file
                 $.each(data.places, function(key, val) {
+				
+					// Create a place object
                     var place = new Place();
                     latlng = new google.maps.LatLng(val.place.latitude, val.place.longitude);
                     place.id = val.place.id;
@@ -90,6 +126,7 @@ $(document).ready(function () {
                     place.name = val.place.name;
                     place.category = val.place.category;
 
+					// For each task in this place, create the task assign it to its place
                     for (var t in val.tasks) {
                         t = val.tasks[t];
                         var task = new Task();
@@ -102,6 +139,7 @@ $(document).ready(function () {
                         place.tasks[task.id] = task;
                     }
 
+					// For each report in this place, create the report and assign it to its place and task
                     for (var r in val.reports) {
                         r = val.reports[r];
                         var report = new Report();
@@ -119,33 +157,37 @@ $(document).ready(function () {
 
                         place.reports[report.id] = report;
                     }
-                    places[place.id] = place;
-                    addMarker(place);
+					
+                    places[place.id] = place;  // Put the place in the global place array
+                    addMarker(place); // Add the place marker to the map
                 });
             });
-			setTimeout("initiateGeolocation()", 1000);
-			setInterval("refreshGps()", 5000);
+			setTimeout("initiateGeolocation()", 1000); // Grab the user's geoLocation
+			setInterval("refreshGps()", 5000); // Refresh to get the current geoLocation every 5 seconds
         }
     });
+	
+	
+    pageResize(); // Initialize the page size
 
-		// This is to go back to the map when the back button is pressed.
-		window.onpopstate = function(event) {
-			backIsMap = false;
-			showMap();
-		}
+	// This is to go back to the map when the back button is pressed.
+	window.onpopstate = function(event) {
+		backIsMap = false;
+		showMap();
+	}
 
-    pageResize();
-
+	// If the user clicks for longer than a half second (tapHold), show the create place page
     $('#map_canvas').gmap({'callback':function(map) {
         $(map).click(function(event) {
             if (isTapHold) {
                 isTapHold = false;
                 clickedPosition = event.latLng;
-                showPage('#place-form')
+                showPage('#place-form');
             }
         });
     }});
 
+	// Identify if the user is performing a tapHold
 	$('#map_canvas').mousedown(function(){
 		var f = function(){
 			isTapHold = true;
@@ -153,25 +195,32 @@ $(document).ready(function () {
 		tapHoldTimeout = setTimeout(f, 500);
 	});
 	
+	// The taphold is over
 	$('#map_canvas').mouseup(function(){
 		clearTimeout(tapHoldTimeout);
 	});
 
+	// We are zooming and we dont want to display the add place page
     google.maps.event.addListener(globalMap, 'zoom_changed', function() {
         zoom = true;
         isTapHold = false;
         setTimeout("endZoom()", 1000);
     });
 
+	// We are dragging and we dont want to display the add place page
     google.maps.event.addListener(globalMap, 'drag', function() {
         zoom = true;
         isTapHold = false;
     });
 
+	// We are done dragging and we dont want to display the add place page
     google.maps.event.addListener(globalMap, 'dragend', function() {
         setTimeout("endZoom()", 1000);
     });
 
+	/* The following are event listeners for forms being submitted. Each
+	 * form has its open submit functon that is called.
+	 */
     $("#address-form-form").submit(function(e) {
         searchPlace();
         return false;
@@ -280,6 +329,12 @@ function createTask() {
     });
 }
 
+/* Function: createReport()
+ * Arguments: N/A
+ *
+ * Description: Called when a user submits a new report or updates
+ * an existing report. Overwrites the old report if an update is being made.
+ */ 
 function createReport() {
     report = new Report();
     report.id = reportId;
@@ -300,6 +355,13 @@ function createReport() {
     });
 }
 
+/* Function: createLogItemCallback()
+ * Arguments: which - "task" or "report"
+ *            data - The JSON callback data  
+ *
+ * Description: Called after a report or a task is submitted. Updates
+				the logs page and the marker for the log item's place.
+ */ 
 function createLogItemCallback(which, data) {
     eval("var logItem = " + which + ";");
     var temp_array = data.split(",");
@@ -313,6 +375,12 @@ function createLogItemCallback(which, data) {
     showLog(logItem.place_id);
 }
 
+/* Function: populateCategories()
+ * Arguments:  
+ *
+ * Description: Grabs the categories from a JSON request and 
+ * populates the select menu for adding a place.
+ */ 
 function populateCategories() {
     $.getJSON('/geocamCover/categories.json', function(data) {
         $.each(data, function(key, val) {
@@ -320,6 +388,7 @@ function populateCategories() {
         });
     });
 }
+
 
 function deletePlace() {
     if (confirm("Delete place '" + selectedPlace.name + "'?"))
@@ -362,6 +431,15 @@ function deleteTaskSuccess() {
     showLog(selectedPlace.id);
 }
 
+/* Function: placeIcon()
+ * Arguments:  place - A place object
+ *
+ * Description: Determines which icon to draw for a place.
+ *				Loops through all reports or tasks depending
+ *   			on which view is enabled. Renders the highest
+ *  			priority task icon or the most significant
+ *  			report status icon.
+ */ 
 function placeIcon(place) {
     var icon;
     if (selectedView == requestView) {
@@ -409,6 +487,13 @@ function placeIcon(place) {
     return icon;
 }
 
+/* Function: addMarker()
+ * Arguments:  place - A place object
+ *
+ * Description: Adds the marker to the map for a place and
+ *				assigns it an onClick listener. Updates the 
+				marker cluster with the marker.
+ */
 function addMarker(place) {
     $("#map_canvas").gmap('addMarker', {
                 'position': place.position,
@@ -424,6 +509,13 @@ function addMarker(place) {
     markerCluster.addMarker(place_marker);
 }
 
+/* Function: showLog()
+ * Arguments:  place_id - ID of a place
+ *
+ * Description: Grabs a place object from the place array.
+ *				Renders the log view with the tasks and reports
+ *				that the place has.
+ */
 function showLog(place_id) {
     place = places[place_id];
     selectedPlace = place;
@@ -542,6 +634,13 @@ function showEditLogItem(which) {
     showPage('#' + which + 's-page');
 }
 
+/* Function: populateTasksForReport()
+ * Arguments:  selectedId - The ID of a selected task
+ *
+ * Description: Marks a task as being selected in a report's "Report on Task"
+ *				select menu. If no task is selected, the default text is assigned
+ *        		to be selected.
+ */
 function populateTasksForReport(selectedId) {
     $("#reports-page .task").empty();
     var selected = selectedId == null ? " selected" : "";
@@ -559,7 +658,12 @@ function populateTasksForReport(selectedId) {
     }
 }
 
-
+/* Function: switchViews()
+ * Arguments:  
+ *
+ * Description: Toggles between report view and task view. Redraws
+ *				the icons accordingly.
+ */
 function switchViews() {
     $("#switch-view-button").html(views[selectedView]);
     switch (selectedView) {
@@ -613,6 +717,13 @@ function handleErrors(error) {
     }
 }
 
+/* Function: handleGeolocationQuery()
+ * Arguments:  position - Coordinates
+ *
+ * Description: If a user grants permission to access their geoLocation, this
+ *				function is called. Creates/re-creates a marker for a user's location.
+ *				Centers the map on the user's location the first time it is called.
+ */
 function handleGeolocationQuery(position) {
 
     var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -648,6 +759,12 @@ function loadFusionData(id) {
 	showMap();
 }
 
+/* Function: refreshGps()
+ * Arguments: 
+ *
+ * Description: This is called every 5 seconds to update the current
+ *				user's location on the map.
+ */
 function refreshGps() {
     if (gpsDenied)
         return;
