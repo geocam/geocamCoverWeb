@@ -2,6 +2,7 @@ html, body {
     background: #EEEEEE;
     padding: 0;
     margin: 0;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 .mobile-page {
@@ -19,19 +20,13 @@ html, body {
 
 #place-form, #address-form {
     position: relative;
-    /*bottom: 0px;*/
     z-index: 10;
     width: 100%;
-    display: none;
 }
 
 #place-form form, #address-form form {
     position: relative;
-    /*bottom: 0px;*/
     width: 100%;
-	/*
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #EEE), color-stop(1, #DDD));
-    */
 	text-align: center;
     padding-bottom: 15px;
 }
@@ -48,38 +43,7 @@ html, body {
 
 .label {
     font-size: larger;
-    font-family: Helvetica, Arial, sans-serif;
     padding-top: 10px;
-}
-
-.button {
-    border: 1px solid #222;
-    font-family: Helvetica, Arial, sans-serif;
-    cursor: pointer;
-    padding: .6em 25px;
-    display: block;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    position: relative;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
-    border-radius: 1em;
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: bold;
-    color: white;
-    font-size: 16px;
-    text-shadow: 0 -1px 1px black;
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #555), color-stop(1, #333));
-}
-
-.button:active {
-    border: 1px solid black;
-    background: #3D3D3D;
-    font-weight: bold;
-    color: white;
-    text-shadow: 0 -1px 1px black;
-    background-image: -moz-linear-gradient(top, #333, #5A5A5A);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #333), color-stop(1, #5A5A5A));
 }
 
 .header {
@@ -100,30 +64,47 @@ html, body {
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #EEE), color-stop(1, #DDD));
 }
 
-.big-button {
+.button, .big-button {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+    font-weight: bold;
+    cursor: pointer;
+    padding: .6em 25px;
     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
     -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
     box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
     display: block;
-    text-align: center;
     position: relative;
-    margin: 5px auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: .6em 25px;
+    -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
+    border-radius: 1em;
+}
+
+.button {
+    font-size: 16px;
+    color: white;
+    border: 1px solid #222;
+    text-shadow: 0 -1px 1px black;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #555), color-stop(1, #333));
+}
+
+.button:active {
+    border: 1px solid black;
+    background: #3D3D3D;
+    background-image: -moz-linear-gradient(top, #333, #5A5A5A);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #333), color-stop(1, #5A5A5A));
+}
+
+.big-button {
+    text-align: center;
+    margin: 10px auto;
+    width: 95%;
     height: 100%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
     border: 1px solid #CCC;
     background: #EEE;
     color: #444;
-    -webkit-border-radius: 1em;
-    border-radius: 1em;
-    font-family: Helvetica, Arial, sans-serif;
-    width: 95%;
     font-size: larger;
-    font-weight: bold;
     text-shadow: 0 1px 1px #F6F6F6;
     background-image: -moz-linear-gradient(top, #FEFEFE, #EEE);
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FDFDFD), color-stop(1, #EEE));
@@ -132,7 +113,6 @@ html, body {
 .big-button:active {
     border: 1px solid gray;
     background: #FDFDFD;
-    font-weight: bold;
     color: #111;
     text-shadow: 0 1px 1px white;
     background-image: -moz-linear-gradient(top, #EEE, #FDFDFD);
@@ -141,14 +121,12 @@ html, body {
 }
 
 .page-h1 {
-    font-family: Helvetica, Arial, sans-serif;
     color: #333;
     text-align: center;
 }
 
 li {
     list-style: none;
-    font-family: Helvetica, Arial, sans-serif;
     text-decoration: none;
     border: 1px solid #F7C942;
     background: #FADB4E;
@@ -167,7 +145,6 @@ li {
 
 li:active {
     background: #FCEDA7;
-    font-weight: bold;
     color: #111;
     text-shadow: 0 1px 1px white;
     background-image: -moz-linear-gradient(top, #FADB4E, #FCEDA7);
@@ -176,38 +153,20 @@ li:active {
 }
 
 textarea {
-    width: 95%;
-    height: 60px;
-    padding: .4em;
-    line-height: 1.4;
-    font-size: 16px;
-    -moz-box-shadow: inset 0 1px 4px rgba(0, 0, 0, .2);
-    -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, .2);
-    box-shadow: inset 0 1px 4px rgba(0, 0, 0, .2);
-    -moz-border-radius: .6em;
-    -webkit-border-radius: .6em;
-    border-radius: .6em;
-    font-family: Helvetica, Arial, sans-serif;
-    border: 1px solid #B3B3B3;
-    color: #333;
-    text-shadow: 0 1px 0 white;
-    background: #F0F0F0;
-    background-image: -moz-linear-gradient(top, #EEE, #DDD);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #EEE), color-stop(1, #DDD));
+	height: 60px;
 }
 
-input[type="text"] {
+textarea, input[type="text"] {
     padding: .4em;
     line-height: 1.4;
     font-size: 16px;
-    width: 95%;
     -moz-box-shadow: inset 0 1px 4px rgba(0, 0, 0, .2);
     -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, .2);
     box-shadow: inset 0 1px 4px rgba(0, 0, 0, .2);
     -moz-border-radius: .6em;
     -webkit-border-radius: .6em;
     border-radius: .6em;
-    font-family: Helvetica, Arial, sans-serif;
+    width: 95%;
     border: 1px solid #B3B3B3;
     color: #333;
     text-shadow: 0 1px 0 white;
@@ -219,21 +178,18 @@ input[type="text"] {
 .submit-button {
 	background: #a8d2ff;
 	border: 1px solid #499efe;
-  background-image: -moz-linear-gradient(top, #b6e4ff, #70bdff);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #b6e4ff), color-stop(1, #70bdff));
+	background-image: -moz-linear-gradient(top, #b6e4ff, #70bdff);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #b6e4ff), color-stop(1, #70bdff));
 }
 
 .submit-button:active {
-	background: #a8d2ff;
 	border: 1px solid #3776BE;
-  background-image: -moz-linear-gradient(top, #70bdff, #b6e4ff,);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #70bdff), color-stop(1, #b6e4ff));
+ 	background-image: -moz-linear-gradient(top, #70bdff, #b6e4ff,);
+ 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #70bdff), color-stop(1, #b6e4ff));
 }
 
 select {
-    margin: 8px auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px auto;
     width: 95%;
     font-size: larger;
     display: block;
@@ -250,39 +206,31 @@ select {
     font-weight: bold;
     color: #444;
     text-shadow: 0 1px 1px #F6F6F6;
-    font-family: Helvetica, Arial, sans-serif;
 }
 
-input[type='range'] {
-    width: 95%;
-    height: 40px;
-}
-
-#footer > div{
+#footer > div {
 	float: left;
+	border-right: 1px solid #222;
+	border-left: 1px solid #444;
 }
 
-#menu > div, #footer > div{
-	border-right: 1px solid white;
-	padding: 10px 10px;
+#menu > div, #footer > div {
+	padding: 10px;
 	font-size: smaller;
-    font-family: Helvetica, Arial, sans-serif;
 	font-weight: bold;
 }
 
-
-#footer > div:active{
+#footer > div:active {
 	color: #9cf;
 }
 
-
-.menu-button{
+.menu-button {
 	text-shadow: none;
 	color: #2A2A2A;
 	background: white;
 }
 
-#menu{
+#menu {
 	border: 1px solid #2A2A2A;
 	position: absolute;
 	background: white;
@@ -290,6 +238,6 @@ input[type='range'] {
 	z-index: 5;
 }
 
-.open-menu{
+.open-menu {
 	display: none;
 }
