@@ -1,7 +1,16 @@
-/* Place Class
- * 
- * Places consists of an array of reports and an array of tasks.
- */
+/** A Place consists of a name, an association with a marker,
+  * as well as an array of reports and an array of tasks.
+  * It also includes a position which is latitude and longitude.
+  *
+  * @class Creates a new Place
+  * @property {Number} id The id of the Place.
+  * @property {String} name The name of the Place.
+  * @property {google.maps.LatLng} position The position object (from Google Maps) of the Place.
+  * @property {Array} reports An array of Report objects associated with the Place.
+  * @property {Array} tasks An array of Task objects associated with the Place.
+  * @property {google.maps.Marker} marker The marker object of the Place.
+  * @property {String} category The category of the Place.
+  */
 function Place() {
     this.id = null;
     this.name = "";
@@ -12,11 +21,16 @@ function Place() {
     this.category = null;
 }
 
-/* Log Item Class
- * 
- * The Log Item class is a superclass of Tasks and Reports. They each
- * share the members in this class.
- */
+/** The LogItem class is a superclass of Tasks and Reports.
+  * They each share the members in this class.
+  * The LogItem represents an entry inside the log for a Place.
+  *
+  * @class Creates a new LogItem
+  * @property {Date} modified_at The last modified time of the LogItem.
+  * @property {Number} id The id of the LogItem.
+  * @property {Number} place_id The ID of the Place this LogItem is associated with.
+  * @property {String} title The title given to the LogItem.
+  */
 function LogItem() {
     this.modified_at = null;
     this.id = null;
@@ -24,10 +38,16 @@ function LogItem() {
     this.title = "";
 }
 
-/* Task Class
- * 
- * Inherits from the Log Item Class. 
- */
+/** The Task class inherits from the LogItem class.
+  * The Task object represents an task to perform for the associated Place.
+  *
+  * @class Creates a new Task
+  * @augments LogItem
+  *
+  * @property {String} description A description of the Task to perform for the Place.
+  * @property {Number} priority The priority of performing this Task represented as a number from 0 to 2.
+  * @property {Boolean} completed True or False representation of whether the Task is completed.
+  */
 function Task() {
     this.description = "";
     this.priority = 0;
@@ -35,10 +55,18 @@ function Task() {
 }
 Task.prototype = new LogItem();
 
-/* Report Class
- * 
- * Inherits from the Log Item Class. Reports can belong to a task.
- */
+/** The Report class inherits from the LogItem class.
+  * The Report object represents a Report of the status of the associated Place.
+  *
+  * @class Creates a new Report
+  * @augments LogItem
+  *
+  * @property {Task} task The optionally referenced Task for this report.
+  * @property {String} status The reported status of this Report chosen from a predetermined list.
+  * @property {Number} percentCompleted 0% - 100%.
+  * @property {string} notes Notes describing the Report.
+  * @property {Number} task_id The optionally referenced Task's ID for this report.
+  */
 function Report() {
     this.task = null;
     this.status = "";
@@ -75,20 +103,20 @@ $(window).resize(function() {
     pageResize();
 });
 
-/* Function: endZoom()
- * Arguments: N/A
- *
- * Description: This function is called via a setTimeout. When
- * the map is being zoomed we don't want to display the create
- * place form - so the zoom and tapHold booleans are set/unset
- * to prevent this.
- */ 
+/** This function helps differentiate between a tapHold and a doubleClick.
+  * This function is called via a setTimeout. When
+  * the map is being zoomed we don't want to display the create
+  * place form - so the zoom and tapHold booleans are set/unset
+  * to prevent this.
+  *
+  * @function
+  */
 function endZoom() {
     zoom = false;
     isTapHold = false;
 }
 
-/* This is called when the document has been rendered */
+// This is called when the document has been rendered
 $(document).ready(function () {
 
     isiPad = navigator.userAgent.match(/iPad/i) != null; // Is the user using an iPad?
@@ -100,10 +128,10 @@ $(document).ready(function () {
     //INITIAL COORDINATES - MOFFETT FIELD
     var latlng = new google.maps.LatLng(37.41288, -122.052934);
 
-	/* This block loads a JSON file from the server and populates the map
-	 * with the places form the database. Each task and report is put into
-	 * its place's task and report array, respectively.
-	 */
+    /* This block loads a JSON file from the server and populates the map
+     * with the places form the database. Each task and report is put into
+     * its place's task and report array, respectively.
+     */
     $('#map_canvas').gmap({
         'center': latlng,
         'mapTypeId': google.maps.MapTypeId.ROADMAP,
@@ -111,14 +139,14 @@ $(document).ready(function () {
         'callback': function (map) {
             globalMap = map;
             $.getJSON('/geocamCover/places.json', function(data) {
-			
-				// Initialize the marker cluster
+
+                // Initialize the marker cluster
                 markerCluster = new MarkerClusterer($('#map_canvas').gmap('getMap'), $('#map_canvas').gmap('getMarkers'));
 
-				// Loop through each place in the JSON file
+        // Loop through each place in the JSON file
                 $.each(data.places, function(key, val) {
-				
-					// Create a place object
+
+          // Create a place object
                     var place = new Place();
                     latlng = new google.maps.LatLng(val.place.latitude, val.place.longitude);
                     place.id = val.place.id;
@@ -126,7 +154,7 @@ $(document).ready(function () {
                     place.name = val.place.name;
                     place.category = val.place.category;
 
-					// For each task in this place, create the task assign it to its place
+          // For each task in this place, create the task assign it to its place
                     for (var t in val.tasks) {
                         t = val.tasks[t];
                         var task = new Task();
@@ -139,7 +167,7 @@ $(document).ready(function () {
                         place.tasks[task.id] = task;
                     }
 
-					// For each report in this place, create the report and assign it to its place and task
+          // For each report in this place, create the report and assign it to its place and task
                     for (var r in val.reports) {
                         r = val.reports[r];
                         var report = new Report();
@@ -157,26 +185,26 @@ $(document).ready(function () {
 
                         place.reports[report.id] = report;
                     }
-					
+
                     places[place.id] = place;  // Put the place in the global place array
                     addMarker(place); // Add the place marker to the map
                 });
             });
-			setTimeout("initiateGeolocation()", 1000); // Grab the user's geoLocation
-			setInterval("refreshGps()", 5000); // Refresh to get the current geoLocation every 5 seconds
+      setTimeout("initiateGeolocation()", 1000); // Grab the user's geoLocation
+      setInterval("refreshGps()", 5000); // Refresh to get the current geoLocation every 5 seconds
         }
     });
-	
-	
+
+
     pageResize(); // Initialize the page size
 
-	// This is to go back to the map when the back button is pressed.
-	window.onpopstate = function(event) {
-		backIsMap = false;
-		showMap();
-	}
+  /** This is to go back to the map when the back button is pressed. */
+  window.onpopstate = function(event) {
+    backIsMap = false;
+    showMap();
+  }
 
-	// If the user clicks for longer than a half second (tapHold), show the create place page
+    /** If the user clicks for longer than a half second (tapHold), show the create place page */
     $('#map_canvas').gmap({'callback':function(map) {
         $(map).click(function(event) {
             if (isTapHold) {
@@ -187,40 +215,40 @@ $(document).ready(function () {
         });
     }});
 
-	// Identify if the user is performing a tapHold
-	$('#map_canvas').mousedown(function(){
-		var f = function(){
-			isTapHold = true;
-		};
-		tapHoldTimeout = setTimeout(f, 500);
-	});
-	
-	// The taphold is over
-	$('#map_canvas').mouseup(function(){
-		clearTimeout(tapHoldTimeout);
-	});
+  /** Identify if the user is performing a tapHold */
+  $('#map_canvas').mousedown(function(){
+    var f = function(){
+      isTapHold = true;
+    };
+    tapHoldTimeout = setTimeout(f, 500);
+  });
 
-	// We are zooming and we dont want to display the add place page
+  /** The taphold is over */
+  $('#map_canvas').mouseup(function(){
+    clearTimeout(tapHoldTimeout);
+  });
+
+    /** We are zooming and we dont want to display the add place page */
     google.maps.event.addListener(globalMap, 'zoom_changed', function() {
         zoom = true;
         isTapHold = false;
         setTimeout("endZoom()", 1000);
     });
 
-	// We are dragging and we dont want to display the add place page
+    /** We are dragging and we dont want to display the add place page */
     google.maps.event.addListener(globalMap, 'drag', function() {
         zoom = true;
         isTapHold = false;
     });
 
-	// We are done dragging and we dont want to display the add place page
+    /** We are done dragging and we dont want to display the add place page */
     google.maps.event.addListener(globalMap, 'dragend', function() {
         setTimeout("endZoom()", 1000);
     });
 
-	/* The following are event listeners for forms being submitted. Each
-	 * form has its open submit functon that is called.
-	 */
+    /** The following are event listeners for forms being submitted. Each
+      * form has its open submit functon that is called.
+      */
     $("#address-form-form").submit(function(e) {
         searchPlace();
         return false;
@@ -245,53 +273,78 @@ $(document).ready(function () {
         createReport();
         return false;
     });
-	
-	$(document).click(function(e){
-		closeMenu(e);
-	});
+
+  $(document).click(function(e){
+    closeMenu(e);
+  });
 });
 
+/** This function searches for a place.
+  * The search works just like in Google Maps, it can be an address or it can be a place's name.
+  * NOTE: This feature is used for finding new Places, not for searching through existing Place objects.
+  * When a place is found, the map will pan to that location and create a marker there. The user can then tap the marker to add that as a new Place. If a place is not found, it will simply display an error saying that the location was not found.
+  *
+  * @function
+  */
 function searchPlace() {
     $('#map_canvas').gmap('search', { 'address': $('#address-name').val() }, function(isFound, results) {
                 if (isFound) {
-										
-										$('#address-name').val("");
-										$('#map_canvas').gmap('getMap').panTo(results[0].geometry.location);
-										$('#map_canvas').gmap('getMap').setZoom(defaultZoom);
+
+                    $('#address-name').val("");
+                    $('#map_canvas').gmap('getMap').panTo(results[0].geometry.location);
+                    $('#map_canvas').gmap('getMap').setZoom(defaultZoom);
                     // var place = new Place();
                     // place.position = results[0].geometry.location;
                     // savePlace(place, 'address');
-										$("#map_canvas").gmap('addMarker', {
-								                'position': results[0].geometry.location,
-								                'title': $('#address-name').val()
-										}, function(map, marker) {
-								    		myMarker = marker;
-										});
+                    $("#map_canvas").gmap('addMarker', {
+                                'position': results[0].geometry.location,
+                                'title': $('#address-name').val()
+                    }, function(map, marker) {
+                        myMarker = marker;
+                    });
 
-										$(myMarker).click(function() {
-												// WTF? Why is $(this) an array?
-								        clickedPosition = $(this)[0].position;
-								        showPage('#place-form');
-								    });
-										
-										showMap();
+                    $(myMarker).click(function() {
+                        // WTF? Why is $(this) an array?
+                        clickedPosition = $(this)[0].position;
+                        showPage('#place-form');
+                    });
+
+                    showMap();
                 } else {
                     alert("Location Not Found."); //Need another way to display to the user that the address wasn't found
                 }
             });
 }
 
-function createPlace(form) {
+/** This function creates a new Place from a clicked position or position from the location search result.
+  * It also saves it to the database.
+  *
+  * @function
+  */
+function createPlace() {
     var place = new Place();
     place.position = clickedPosition;
     savePlace(place, 'place');
 }
 
+/** This function is updates a Place.
+  * In order to update the cluster, the marker is removed and the Place is resaved.
+  *
+  * @function
+  */
 function updatePlace() {
     markerCluster.removeMarker(selectedPlace.marker);
     savePlace(selectedPlace, 'edit-place');
 }
 
+/** This function saves the Place.
+  * It sets up the Place's category and name.
+  * Then calls addPlace to post it to the database.
+  *
+  * @function
+  * @param {Place} place The Place object that's passed in for saving.
+  * @param {String} which Tells the function which form it's being called from.
+  */
 function savePlace(place, which) {
     place.category = $('#' + which + '-categories-select').val();
     place.name = $('#' + which + '-name').val();
@@ -302,6 +355,13 @@ function savePlace(place, which) {
 
 }
 
+/** This function actually saves the Place.
+  * It creates the Place as JSON from the parameter.
+  * Then posts it to the database for saving.
+  *
+  * @function
+  * @param {Place} place The Place object that's passed in for saving.
+  */
 function addPlace(place) {
     var new_place = JSON.stringify({"place_id": place.id, "latitude": place.position.lat(),
         "longitude": place.position.lng(), "name": place.name, "category": place.category });
@@ -314,6 +374,12 @@ function addPlace(place) {
     });
 }
 
+/** This function creates/updates a Task.
+  * This sets up a Task's ID, description, priority, and the related Place's ID.
+  * This then JSONifies the Task and posts it to the database for saving.
+  *
+  * @function
+  */
 function createTask() {
     task = new Task();
     task.id = taskId;
@@ -329,12 +395,12 @@ function createTask() {
     });
 }
 
-/* Function: createReport()
- * Arguments: N/A
- *
- * Description: Called when a user submits a new report or updates
- * an existing report. Overwrites the old report if an update is being made.
- */ 
+/** This function creates/updates a Report.
+  * This sets up a Report's ID, title, status, related Task's ID (optional), percentCompleted, notes, and the related Place's ID.
+  * This then JSONifies the Report and posts it to the database for saving.
+  *
+  * @function
+  */
 function createReport() {
     report = new Report();
     report.id = reportId;
@@ -355,13 +421,12 @@ function createReport() {
     });
 }
 
-/* Function: createLogItemCallback()
- * Arguments: which - "task" or "report"
- *            data - The JSON callback data  
- *
- * Description: Called after a report or a task is submitted. Updates
-				the logs page and the marker for the log item's place.
- */ 
+/** This function updates the Log page after a Task/Report is created/updated.
+  *
+  * @function
+  * @param {String} which What is calling this method: "task" or "report"
+  * @param {Object} data The JSON callback data
+  */
 function createLogItemCallback(which, data) {
     eval("var logItem = " + which + ";");
     var temp_array = data.split(",");
@@ -375,12 +440,10 @@ function createLogItemCallback(which, data) {
     showLog(logItem.place_id);
 }
 
-/* Function: populateCategories()
- * Arguments:  
- *
- * Description: Grabs the categories from a JSON request and 
- * populates the select menu for adding a place.
- */ 
+/** This function grabs the categories from a JSON request and populates the select menu for adding a place.
+  *
+  * @function
+  */
 function populateCategories() {
     $.getJSON('/geocamCover/categories.json', function(data) {
         $.each(data, function(key, val) {
@@ -389,57 +452,94 @@ function populateCategories() {
     });
 }
 
-
+/** This deletes a Place and removes it from the database via AJAX after a confirmation is displayed.
+  *
+  * @function
+  */
 function deletePlace() {
     if (confirm("Delete place '" + selectedPlace.name + "'?"))
         deleteItemAjax("Place", JSON.stringify({"type": "Place", "id": selectedPlace.id}));
 }
 
+/** This deletes a Task and removes it from the database via AJAX after a confirmation is displayed.
+  *
+  * @function
+  */
 function deleteTask() {
     if (confirm("Delete task '" + selectedPlace.tasks[taskId].title + "'?"))
         deleteItemAjax("Task", JSON.stringify({"type": "Task", "id": taskId}));
 }
 
+/** This deletes a Report and removes it from the database via AJAX after a confirmation is displayed.
+  *
+  * @function
+  */
 function deleteReport() {
     if (confirm("Delete report '" + selectedPlace.reports[reportId].title + "'?"))
         deleteItemAjax("Report", JSON.stringify({"type": "Report", "id": reportId}));
 }
 
+/** This deletes a resource/object and removes it from the database via AJAX.
+  * This dynamically evaluates which type of object it's attempting to delete,
+  * posts an AJAX call to delete the object,
+  * and then calls the appropriate function to handle the UI after the delete.
+  *
+  * @function
+  * @param {String} itemType The type of object it's trying to delete: "Place", "Task" or "Report".
+  * @param {Object} data Callback data.
+  */
 function deleteItemAjax(itemType, data) {
     $.ajax({url: '/geocamCover/delete_item/',
         data: data,
         type: "DELETE",
         success: function(data) {
+            // functions called are deletePlaceSuccess(), deleteTaskSuccess(), deleteReportSuccess();
             eval("delete" + itemType + "Success();");
         }
     });
 }
 
+/** This method is triggered after a Place is deleted.
+  * It removes the Place's marker from the map,
+  * and removes the Place from the places array.
+  *
+  * @function
+  */
 function deletePlaceSuccess() {
     markerCluster.removeMarker(selectedPlace.marker);
     delete places[selectedPlace.id];
     showMap();
 }
 
+/** This method is triggered after a Report is deleted.
+  * It removes the Report from the reports array.
+  *
+  * @function
+  */
 function deleteReportSuccess() {
     delete places[selectedPlace.id].reports[reportId];
     showLog(selectedPlace.id);
 }
 
+/** This method is triggered after a Task is deleted.
+  * It removes the Task from the tasks array.
+  *
+  * @function
+  */
 function deleteTaskSuccess() {
     delete places[selectedPlace.id].tasks[taskId];
     showLog(selectedPlace.id);
 }
 
-/* Function: placeIcon()
- * Arguments:  place - A place object
- *
- * Description: Determines which icon to draw for a place.
- *				Loops through all reports or tasks depending
- *   			on which view is enabled. Renders the highest
- *  			priority task icon or the most significant
- *  			report status icon.
- */ 
+/** Determines which icon to draw for a place.
+  * Loops through all reports or tasks depending
+  * on which view is enabled. Currently, it renders the highest
+  * priority task icon or the most significant
+  * report status icon.
+  *
+  * @function
+  * @param {Place} place The Place object to add an icon to the map for.
+  */
 function placeIcon(place) {
     var icon;
     if (selectedView == requestView) {
@@ -487,13 +587,13 @@ function placeIcon(place) {
     return icon;
 }
 
-/* Function: addMarker()
- * Arguments:  place - A place object
- *
- * Description: Adds the marker to the map for a place and
- *				assigns it an onClick listener. Updates the 
-				marker cluster with the marker.
- */
+/** Adds the marker to the map for a Place and assigns it an onClick listener.
+  * Updates the marker cluster with the marker.
+  * It will bring up the log page for the Place when it's done.
+  *
+  * @function
+  * @param {Place} place The Place object to add a marker to the map for.
+  */
 function addMarker(place) {
     $("#map_canvas").gmap('addMarker', {
                 'position': place.position,
@@ -509,13 +609,12 @@ function addMarker(place) {
     markerCluster.addMarker(place_marker);
 }
 
-/* Function: showLog()
- * Arguments:  place_id - ID of a place
- *
- * Description: Grabs a place object from the place array.
- *				Renders the log view with the tasks and reports
- *				that the place has.
- */
+/** Grabs a place object from the place array.
+  * Renders the log view with the tasks and reports that the place has.
+  *
+  * @function
+  * @param {Number} place_id The Place object's ID to load the log screen for.
+  */
 function showLog(place_id) {
     place = places[place_id];
     selectedPlace = place;
@@ -555,28 +654,45 @@ function showLog(place_id) {
     showPage("#logs-page");
 }
 
+/** Override for the "Back button".
+  * Will go back to the page specified and push a history object
+  * unless the page is the map page.
+  *
+  * @function
+  * @param {String} page The HTML ID of the page we are trying to get to.
+  */
 function showPage(page) {
-	// Add GeoCam to History IF not already in history.
-	if (!backIsMap && page != "#map-page") {
-		backIsMap = true;
-		history.pushState(null, "Map", document.location.origin);
-	} 
+  // Add GeoCam to History IF not already in history.
+  if (!backIsMap && page != "#map-page") {
+    backIsMap = true;
+    history.pushState(null, "Map", document.location.origin);
+  }
   $(".mobile-page").hide();
   $(page).show();
 }
 
+/** Override for the "Back button".
+  * Will go back to the map page.
+  * If it's the map page, it will remove the last history object.
+  *
+  * @function
+  */
 function showMap() {
-	  // Remove GeoCam from History
-		if (backIsMap) {
-			backIsMap = false;
-			// HACKY AS HELL. LOLOLOLOLOLOLOLOL.
-			history.go(-1);
-		}
-		// Push history.
+    // Remove GeoCam from History
+    if (backIsMap) {
+      backIsMap = false;
+      // HACKY AS HELL. LOLOLOLOLOLOLOLOL.
+      history.go(-1);
+    }
+    // Push history.
     showPage("#map-page");
     pageResize();
 }
 
+/** Display the Edit page form for a Place.
+  *
+  * @function
+  */
 function showEditPlace() {
     $("#edit-place-page h1 .name").html(selectedPlace.name.length == 0 ? "Unnamed Place" : selectedPlace.name);
     $("#edit-place-name").val(selectedPlace.name);
@@ -584,6 +700,10 @@ function showEditPlace() {
     showPage("#edit-place-page");
 }
 
+/** Display the New page form for a Task.
+  *
+  * @function
+  */
 function showNewTask() {
     taskId = null;
     $("#tasks-page .description").val("");
@@ -591,16 +711,25 @@ function showNewTask() {
     showNewLogItem('task');
 }
 
+/** Display the New page form for a Report.
+  *
+  * @function
+  */
 function showNewReport() {
     reportId = null;
     $("#reports-page .title").val("");
-    $("#reports-page .percent-completed").val(0);
+    $("#reports-page .percent-completed").val(100);
     $("#reports-page .notes").val("");
     populateTasksForReport(null);
     $("#reports-page .status").val(4);
     showNewLogItem('report');
 }
 
+/** Display the New page form for a LogItem.
+  *
+  * @function
+  * @param {String} which The type of LogItem you're making: "Task" or "Report".
+  */
 function showNewLogItem(which) {
     $('#' + which + '-name-h1').html('New ' + which + ' for ' + (selectedPlace.name.length == 0 ? "Unnamed Place" : selectedPlace.name));
     $('#' + which + 's-page .submit-button').val("Submit " + which);
@@ -608,6 +737,11 @@ function showNewLogItem(which) {
     showPage("#" + which + "s-page");
 }
 
+/** Display the Edit page form for a Task.
+  *
+  * @function
+  * @param {Number} task_id The ID number of the Task object to edit.
+  */
 function showEditTask(task_id) {
     var task = selectedPlace.tasks[task_id];
     taskId = task.id;
@@ -616,6 +750,11 @@ function showEditTask(task_id) {
     showEditLogItem('task');
 }
 
+/** Display the Edit page form for a Report.
+  *
+  * @function
+  * @param {Number} report_id The ID number of the Report object to edit.
+  */
 function showEditReport(report_id) {
     var report = selectedPlace.reports[report_id];
     reportId = report.id;
@@ -627,6 +766,11 @@ function showEditReport(report_id) {
     showEditLogItem('report');
 }
 
+/** Display the Edit page form for a LogItem.
+  *
+  * @function
+  * @param {String} which The type of LogItem you're making: "Task" or "Report".
+  */
 function showEditLogItem(which) {
     $('#' + which + '-name-h1').html("Edit " + which);
     $('#' + which + 's-page .submit-button').val('Update ' + which);
@@ -634,13 +778,13 @@ function showEditLogItem(which) {
     showPage('#' + which + 's-page');
 }
 
-/* Function: populateTasksForReport()
- * Arguments:  selectedId - The ID of a selected task
- *
- * Description: Marks a task as being selected in a report's "Report on Task"
- *				select menu. If no task is selected, the default text is assigned
- *        		to be selected.
- */
+/** Populates the Task list associated with the current Place for the Report form.
+  * Marks a task as being selected in a report's "Report on Task" select menu.
+  * If no task is selected, the default text is assigned to be selected.
+  *
+  * @function
+  * @param {Number} selectedId The ID of the selected Task.
+  */
 function populateTasksForReport(selectedId) {
     $("#reports-page .task").empty();
     var selected = selectedId == null ? " selected" : "";
@@ -658,12 +802,10 @@ function populateTasksForReport(selectedId) {
     }
 }
 
-/* Function: switchViews()
- * Arguments:  
- *
- * Description: Toggles between report view and task view. Redraws
- *				the icons accordingly.
- */
+/** Toggles between report view and task view. Redraws the icons accordingly.
+  *
+  * @function
+  */
 function switchViews() {
     $("#switch-view-button").html(views[selectedView]);
     switch (selectedView) {
@@ -682,6 +824,12 @@ function switchViews() {
     return false;
 }
 
+/** Resizes the map to an appropriate size.
+  * This is called when the size of the browser is changed (or on startup).
+  * Also called when showing a page is requested.
+  *
+  * @function
+  */
 function pageResize() {
     var page_height = $(window).height() - $("#map-header").height() - $("#footer").height() - 4;
     if (isiPad)
@@ -691,14 +839,23 @@ function pageResize() {
 
     }
 
-	$("#menu").css("right",  $(window).width()  - (22 + $("#menu-button").position().left + $("#menu-button").width())  );
+  $("#menu").css("right",  $(window).width()  - (22 + $("#menu-button").position().left + $("#menu-button").width())  );
     $('#map_canvas, #dim').height(page_height);
 }
 
+/** Initiates the Geolocation module.
+  *
+  * @function
+  */
 function initiateGeolocation() {
     navigator.geolocation.getCurrentPosition(handleGeolocationQuery, handleErrors);
 }
 
+/** Handles the errors for the Geolocation module.
+  *
+  * @function
+  * @param {Object} error The error coming back from the Geolocation callback.
+  */
 function handleErrors(error) {
     gpsDenied = true;
     switch (error.code) {
@@ -717,76 +874,101 @@ function handleErrors(error) {
     }
 }
 
-/* Function: handleGeolocationQuery()
+/** Function: handleGeolocationQuery()
  * Arguments:  position - Coordinates
  *
- * Description: If a user grants permission to access their geoLocation, this
- *				function is called. Creates/re-creates a marker for a user's location.
- *				Centers the map on the user's location the first time it is called.
+ * Description:
  */
+
+/** Creates/re-creates a marker for a user's location.
+  * This function is called when a user grants permission to access geoLocation data.
+  * Centers the map on the user's location the first time it is called.
+  *
+  * @function
+  * @param {google.maps.LatLng} position The position of the user.
+  */
 function handleGeolocationQuery(position) {
 
     var myLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-  
-	if (myMarker) {
-		myMarker.setPosition(myLocation);
+
+  if (myMarker) {
+    myMarker.setPosition(myLocation);
     } else {
-	  $("#map_canvas").gmap('addMarker', {
+    $("#map_canvas").gmap('addMarker', {
                 'position': myLocation,
                 'title': "You are here",
                 'icon': "/static/images/youAreHere.png",
-				'zIndex' : 1000
+        'zIndex' : 1000
             }, function(map, marker) {
                 myMarker = marker;
-		});
-		
-		$(myMarker).click(function() {
+    });
+
+    $(myMarker).click(function() {
         clickedPosition = myLocation;
         showPage('#place-form');
     });
 
-		$('#map_canvas').gmap({
+    $('#map_canvas').gmap({
             'center': myLocation
         });
-	}
+  }
 }
 
+/** Loads a Fusion Table and displays all it's locations as markers on the map.
+  * Sets the default to David Kauggischel's Menlo Park data if no ID is specified.
+  *
+  * @function
+  * @param {Number} id The ID of the Google Fusion Table.
+  */
 function loadFusionData(id) {
-	if (!id) {
-		id = 1003379;
-	}
-	$('#map_canvas').gmap('loadFusion', id);
-	showMap();
+  if (!id) {
+    id = 1003379;
+  }
+  $('#map_canvas').gmap('loadFusion', id);
+  showMap();
 }
 
-/* Function: refreshGps()
- * Arguments: 
+/** Function: refreshGps()
+ * Arguments:
  *
- * Description: This is called every 5 seconds to update the current
- *				user's location on the map.
+ * Description:
  */
+
+/** This is called every 5 seconds to update the current user's location on the map.
+  *
+  * @function
+  */
 function refreshGps() {
     if (gpsDenied)
         return;
     initiateGeolocation();
 }
 
+/** This function opens the "More" options menu in the footer of the page.
+  *
+  * @function
+  */
 function showMenu(){
-	if (menuOpen)
-		return closeMenu();
-	menuOpen = true;
-	$("#menu-button").addClass("menu-button");
-	$(".open-menu").show();
-	$(".closed-menu").hide();
-	$("#menu").css("bottom", $(window).height() - $("#footer").position().top - 1);
-	$("#menu").css("right",  $(window).width()  - (22 + $("#menu-button").position().left + $("#menu-button").width())  );
+  if (menuOpen)
+    return closeMenu();
+  menuOpen = true;
+  $("#menu-button").addClass("menu-button");
+  $(".open-menu").show();
+  $(".closed-menu").hide();
+  $("#menu").css("bottom", $(window).height() - $("#footer").position().top - 1);
+  $("#menu").css("right",  $(window).width()  - (22 + $("#menu-button").position().left + $("#menu-button").width())  );
 }
 
+/** This function closes the "More" options menu in the footer of the page.
+  *
+  * @function
+  * @param {Event} e The event triggered by the mouse click or tap.
+  */
 function closeMenu(e){
-	if (!menuOpen || (e && e.target.id == "menu-button"))
-		return;
-	menuOpen = false;
-	$("#menu-button").removeClass("menu-button");
-	$(".open-menu").hide();
-	$(".closed-menu").show();
+  if (!menuOpen || (e && e.target.id == "menu-button"))
+    return;
+  menuOpen = false;
+  $("#menu-button").removeClass("menu-button");
+  $(".open-menu").hide();
+  $(".closed-menu").show();
 }
